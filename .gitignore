@@ -1,0 +1,7 @@
+/.env.rb
+*.db
+*.csv
+*.png
+/rodauth/Gemfile.lock
+.RData
+.Rhistory

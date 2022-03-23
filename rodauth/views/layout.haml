@@ -1,0 +1,24 @@
+!!!
+%html{ lang: "en" }
+  %head
+    %meta{ charset: "utf-8" }
+    %meta{ 'content' => 'text/html; charset=UTF-8', 'http-equiv' => 'Content-Type'}
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' }
+    %title RubyMeasureResponsetime
+
+  %body
+    %nav.navbar.navbar-default{ role: "navigation" }
+      .container
+        %a.navbar-brand{ href: "/"} Home
+
+    .container#content
+      - if flash['notice']
+        .alert.alert-success{ role: "alert" }= flash['notice']
+
+      - if flash['error']
+        .alert.alert-danger{ role: "alert" }= flash['error']
+
+      - if @page_title
+        %h1= @page_title
+
+      = yield

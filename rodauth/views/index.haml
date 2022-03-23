@@ -1,0 +1,11 @@
+%h1
+  - if rodauth.logged_in?
+    = "Hello #{DB[:accounts].where(id: rodauth.session_value).get(:email)}!"
+  - else
+    Hello World!
+
+%p
+  - if rodauth.logged_in?
+    %a{ href: rodauth.logout_path } Logout
+  - else
+    %a{ href: rodauth.login_path } Login
