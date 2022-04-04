@@ -2,6 +2,8 @@
 *.db
 *.csv
 *.png
+*.log
+*__
 /rodauth/Gemfile.lock
 .RData
 .Rhistory

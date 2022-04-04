@@ -5,6 +5,9 @@ $count = 0
 $last_mgc_count = GC.stat[:major_gc_count]
 $mgcs = []
 
+$f.write "\n#{RUBY_DESCRIPTION}\n"
+$f.flush
+
 class App < Roda
   opts[:check_dynamic_arity] = false
   opts[:check_arity] = :warn
@@ -38,29 +41,10 @@ class App < Roda
     view(:content=>"")
   end
 
-  # if ENV['RACK_ENV'] == 'development'
-  #   plugin :exception_page
-  #   class RodaRequest
-  #     def assets
-  #       exception_page_assets
-  #       super
-  #     end
-  #   end
-  # end
-
   plugin :error_handler do |e|
-    # case e
-    # when Roda::RodaPlugins::RouteCsrf::InvalidToken
-    #   @page_title = "Invalid Security Token"
-    #   response.status = 400
-    #   view(:content=>"<p>An invalid security token was submitted with this request, and this request could not be processed.</p>")
-    # else
-    # $stderr.print "#{e.class}: #{e.message}\n"
-    # $stderr.puts e.backtrace
-    next exception_page(e, :assets=>true) if ENV['RACK_ENV'] == 'development'
+    $f.write "ERROR #{e.class}: #{e.message}\n#{e.backtrace}\n"
     @page_title = "Internal Server Error"
-    view(:content=>"")
-    # end
+    view(content: '')
   end
 
   plugin :rodauth, csrf: false do
@@ -69,10 +53,15 @@ class App < Roda
     hmac_secret 'HMAC_SECRET_HMAC_SECRET_HMAC_SECRET_HMAC_SECRET'
   end
 
-  plugin :sessions, key: '_App.session', secret: 'APP_SESSION_SECRET_APP_SESSION_SECRET_APP_SESSION_SECRET_APP_SESSION_SECRET'
+  plugin :sessions,
+    key: '_App.session',
+    secret: 'APP_SESSION_SECRET_APP_SESSION_SECRET_APP_SESSION_SECRET_APP_SESSION_SECRET',
+    max_idle_seconds: nil
 
   route do |r|
     $count += 1
+    # $f.write "#{$count} #{r.url}\n"
+
     mgc = GC.stat[:major_gc_count] || GC.stat[:count]
     if $last_mgc_count != mgc
       $mgcs << $count
@@ -90,7 +79,8 @@ class App < Roda
     end
 
     r.get 'gc' do
-      p GC.stat
+      $f.write "#{GC.stat}\n"
+      $f.close
       $mgcs.to_s
     end
   end

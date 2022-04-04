@@ -1,0 +1,16 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    session (3.2.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  session
+
+RUBY VERSION
+   ruby 3.1.1p18
+
+BUNDLED WITH
+   2.3.7

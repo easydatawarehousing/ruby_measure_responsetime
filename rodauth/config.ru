@@ -1,3 +1,5 @@
+$f=File.open('test.log', 'a+')
+
 dev = ENV['RACK_ENV'] == 'development'
 
 require 'fileutils'
@@ -8,10 +10,15 @@ require 'rubygems'
 require 'bundler/setup'
 require_relative 'app'
 
-run ->(env) {
-  App.call(env)
-  # App.freeze.call(env)
-}
+begin
+  run ->(env) {
+    App.call(env)
+    # App.freeze.call(env)
+  }
+rescue => e
+  $f.write "ERROR #{e.message}\n#{e.backtrace}\n"
+  $f.close
+end
 
 freeze_core = false
 #freeze_core = !dev # Uncomment to enable refrigerator
