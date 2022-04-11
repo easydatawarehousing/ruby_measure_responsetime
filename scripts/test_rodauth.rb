@@ -7,6 +7,11 @@ require 'json'
 
 uris = []
 
+# Number of times to run the testset.
+# This is per url, so gives N times 5 datapoints.
+# Specify as a commandline argument. Default is 1000.
+N = ARGV.length == 1 ? ARGV[0].to_i : 1_000
+
 if true
   uris << Net::HTTP::Get.new('http://127.0.0.1:9292/')
 
@@ -49,12 +54,7 @@ end
 
 # Start Roda and get Ruby version
 version = Net::HTTP.get(URI('http://127.0.0.1:9292/version'))
-mjit = !!(version['+JIT'] || version['+MJIT'])
-yjit = !!version['+YJIT']
-m = version.match(/ruby ([\d\.]+)[p,]+.*\z/)
-version = [m[1], mjit ? 'MJIT' : nil, yjit ? 'YJIT' : nil].compact.join(' ') if m
 
-N = 50_000 # per url, so 250K datapoints
 results = []
 error_count = success_count = 0
 total_time = 0.0

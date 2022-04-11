@@ -1,12 +1,13 @@
 require_relative 'models'
 require 'roda'
 
-$count = 0
+$f.write "\n#{RUBY_DESCRIPTION}\n"
+$f.write "#{GC.stat}\n"
+$f.flush
+
+$req_count = 0
 $last_mgc_count = GC.stat[:major_gc_count]
 $mgcs = []
-
-$f.write "\n#{RUBY_DESCRIPTION}\n"
-$f.flush
 
 class App < Roda
   opts[:check_dynamic_arity] = false
@@ -59,12 +60,11 @@ class App < Roda
     max_idle_seconds: nil
 
   route do |r|
-    $count += 1
-    # $f.write "#{$count} #{r.url}\n"
+    $req_count += 1
 
     mgc = GC.stat[:major_gc_count] || GC.stat[:count]
     if $last_mgc_count != mgc
-      $mgcs << $count
+      $mgcs << $req_count
       $last_mgc_count = mgc
     end
 
@@ -75,7 +75,17 @@ class App < Roda
     r.root { view 'index' }
 
     r.get 'version' do
-      RUBY_DESCRIPTION
+      mjit = RUBY_DESCRIPTION['+JIT'] || RUBY_DESCRIPTION['+MJIT'] ? ' MJIT' : ''
+      yjit = RUBY_DESCRIPTION['+YJIT'] ? ' YJIT' : ''
+
+      version = if defined?(RUBY_ENGINE_VERSION)
+        RUBY_ENGINE_VERSION
+      else
+        m = RUBY_DESCRIPTION.match(/ruby ([\d\.]+)[p,]+.*\z/)
+        m ? m[1] : RUBY_DESCRIPTION
+      end
+
+      "#{RUBY_ENGINE}-#{version}#{mjit}#{yjit}"
     end
 
     r.get 'gc' do
