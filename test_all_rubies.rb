@@ -7,6 +7,7 @@ require 'yaml'
 system 'clear'
 
 # Number of times to run the testset
+# Use 50000 for rodauth demo application
 N = 1000
 
 # Name of file specifying which rubies should be used in the test
@@ -145,7 +146,7 @@ end
 def start_server(version, bash, app_name)
   puts("\n# Ruby '#{version[0]}' #{version[1]} ".ljust(120, '-'))
 
-  print "Installing ruby\r"
+  print "  Installing ruby\r"
 
   script = [
     cmd_initialize_ruby_version_manager,
@@ -165,7 +166,7 @@ def start_server(version, bash, app_name)
     end
   end
 
-  print "Starting server\r"
+  print "  Starting server\r"
 
   bash.execute(cmd_run_server(version[1])) do |out, err|
     puts out if out
@@ -183,7 +184,7 @@ def start_server(version, bash, app_name)
 end
 
 def run_test_script(app_name)
-  print "Running test script\r"
+  print "  Running test script\r"
   t1 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
   response = `ruby scripts/test_#{app_name}.rb #{N}`.strip
   t2 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
@@ -191,7 +192,6 @@ def run_test_script(app_name)
   puts "Finished in #{(t2 - t1).round(0)} seconds"
 end
 
-# /usr/lib/jvm/java-11-openjdk-amd64/bin/java -Djdk.home=/usr/lib/jvm/java-11-openjdk-amd64 -Djruby.home=/home/ivo/.rvm/rubies/jruby-9.3.3.0 -Djruby.script=jruby -Djruby.shell=/bin/sh -Djffi.boot.library.path=/home/ivo/.rvm/rubies/jruby-9.3.3.0/lib
 def get_server_pid
   # `lsof -ti:9292`.strip
   pid = `ps -ef | awk '$8=="puma" {print $2}'`.strip
@@ -222,7 +222,7 @@ def test_server_still_running
 end
 
 def start_session
-  Session::Bash::Login.new(use_open3: true)
+  Session::Bash::Login.new
 end
 
 def log_server_memory_usage
@@ -245,13 +245,11 @@ determine_ruby_manager
 list_rubies.each do |version|
   test_server_still_running
   bash = start_session
-  next if version[0] =~ /graal/
   start_server(version, bash, app_name)
   run_test_script(app_name)
   log_server_memory_usage
   stop_server(bash)
   bash.close!
-break
 end
 
 analyze_results
