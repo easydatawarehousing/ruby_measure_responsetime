@@ -6,20 +6,28 @@
 # Or add some entries in the include list, the exclude list will then be ignored.
 
 include:
-# - ruby-2.0.0
+# - ruby-2.0.0-p648
 # - ruby-2.1.10
 # - ruby-2.2.10
 # - ruby-2.3.8
 # - ruby-2.4.10
 # - ruby-2.5.9
-# - ruby-2.6.9
-# - ruby-2.7.5
-# - ruby-3.0.3
-# - ruby-3.1.1
+# - ruby-2.6.10
+# - ruby-2.7.6
+# - ruby-3.0.4
+# - ruby-3.1.2
 # - jruby-9.3.4.0
 # - truffleruby-22.0.0.2
+# - ruby-3.2.0-preview1
 
 exclude:
 - jruby-9.3.3.0
-- ruby-2.6.6
+- jruby-9.3.4.0
 - truffleruby+graalvm-22.0.0.2
+- ruby-2.6.6
+- ruby-2.6.9
+- ruby-2.7.5
+- ruby-3.0.3
+- ruby-3.1.1
+
+yjit-exec-mem-sizes: 8 # Mb

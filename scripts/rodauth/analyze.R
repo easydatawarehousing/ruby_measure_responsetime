@@ -13,14 +13,14 @@
 # col=brewer.pal(n = 5, name = "BrBG")[1 + df$uri]
 
 options(width=150, echo=FALSE)
-system("clear")
-rodauth = read.csv(file="data/rodauth.csv",  header=TRUE, sep=",")
+# system("clear")
+rodauth = read.csv(file="data/rodauth/measurements.csv",  header=TRUE, sep=",")
 rodauth$version = as.factor(rodauth$version)
 versions = sort(unique(rodauth$version))
 summary(rodauth, maxsum = length(versions))
 
 # Boxplot showing all rubies
-png(file=paste0("data/plots/rodauth_0_overview.png"), width=1920, height=1080)
+png(file=paste0("data/rodauth/plots/rodauth_0_overview.png"), width=1920, height=1080)
 boxplot(y ~ version, data = rodauth[rodauth$y < 20,], pch=19, cex=0.2)
 
 cat("\nSlow request counts\n")
@@ -36,7 +36,7 @@ for(i in 1:length(versions)) {
   df = rodauth[rodauth$version == versions[i],]
   cat("Plotting:", paste(df[1, 1], "\n"))
 
-  png(file=paste0("data/plots/rodauth_1_", df[1, 1],".png"), width=1920, height=1080)
+  png(file=paste0("data/rodauth/plots/rodauth_1_", df[1, 1],".png"), width=1920, height=1080)
 
   plot(df$y ~ df$x, pch=19, cex=0.2, ylim=c(0, 15), col=(1 + df$uri), xlab="Run", ylab="milliseconds", main=df[1, 1])
 
@@ -65,7 +65,7 @@ for(i in 1:length(versions)) {
   df = rodauth[rodauth$version == versions[i],]
   cat("Detail plot:", paste(df[1, 1], "\n"))
 
-  png(file=paste0("data/plots/rodauth_detail_2_", df[1, 1],".png"), width=1920, height=1080)
+  png(file=paste0("data/rodauth/plots/rodauth_detail_2_", df[1, 1],".png"), width=1920, height=1080)
 
   plot(df$y ~ df$x, pch=19, cex=0.2, ylim=c(0.5, 2.5), col=(1 + df$uri), xlab="Run", ylab="milliseconds", main=df[1, 1])
 

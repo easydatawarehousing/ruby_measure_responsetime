@@ -63,6 +63,9 @@ Net::HTTP.start('127.0.0.1', 9292, { read_timeout: 2, open_timeout: 2 }) do |htt
   N.times do |x|
     begin
       uris.each_with_index do |uri, uri_index|
+        # CLOCK_MONOTONIC should work on most platforms
+        # A good alternative would be CLOCK_MONOTONIC_PRECISE
+        # See: https://docs.ruby-lang.org/en/3.1/Process.html#method-c-clock_gettime
         t1 = Process.clock_gettime(Process::CLOCK_MONOTONIC, :float_millisecond)
         http.request(uri)
         t2 = Process.clock_gettime(Process::CLOCK_MONOTONIC, :float_millisecond)
@@ -83,8 +86,8 @@ Net::HTTP.start('127.0.0.1', 9292, { read_timeout: 2, open_timeout: 2 }) do |htt
 end
 
 # Create csv and header row
-unless File.exist?('data/rodauth.csv')
-  f = File.open('data/rodauth.csv', 'w')
+unless File.exist?('data/rodauth/measurements.csv')
+  f = File.open('data/rodauth/measurements.csv', 'w')
   f.write("version,run,uri,x,y,mgc\n")
   f.close
 end
@@ -96,7 +99,7 @@ rescue
   []
 end
 
-f = File.open('data/rodauth.csv', 'a')
+f = File.open('data/rodauth/measurements.csv', 'a')
 results.each_with_index do |r, i|
   f.write("\"#{version}\",1,#{r[0]},#{r[1]},#{r[2].round(3)},#{mgcs.include?(r[1]) ? 1 : 0}\n")
 end

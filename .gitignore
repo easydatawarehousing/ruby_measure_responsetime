@@ -4,6 +4,7 @@
 *.png
 *.log
 *__
-/rodauth/Gemfile.lock
+/apps/rodauth/Gemfile.lock
+/apps/rails/Gemfile.lock
 .RData
 .Rhistory
