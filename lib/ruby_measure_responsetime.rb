@@ -1,105 +1,50 @@
 require 'session'
 require 'yaml'
+require_relative 'ruby_measure_responsetime/rvm'
+require_relative 'ruby_measure_responsetime/rbenv'
+require_relative 'ruby_measure_responsetime/ruby_stats'
 
 class RubyMeasureResponsetime
 
-  # Name of file specifying which rubies should be used in the test
-  RUBIES_TO_TEST_FILENAME = 'rubies_to_test.yml'
+  # Name of Ruby script to run test
+  MEASURE_FILENAME = 'measure.rb'
 
-  def initialize(app_name, n)
+  # Name of file specifying which rubies should be used in the test
+  RUBIES_TO_TEST_FILENAME = 'rubies.yml'
+
+  # Name of R script to analyze results
+  ANALYZE_FILENAME = 'analyze.R'
+
+  def initialize(app_name, n, run_id)
     @app_name = app_name
-    @n = n
-    raise :invalid_parameters if @app_name.strip == '' || @n <= 0
+    @n        = n
+    @run_id   = run_id
+    if @app_name.strip == '' || @n < 0 || @run_id < 1
+      puts "Invalid parameters, please specify an application name, number or times to run the test and optionally a run ID"
+      exit 1
+    end
 
     determine_ruby_manager
-    run_tests
-    analyze_results
-  end
+    determine_rubies
 
-  def run_tests
-    list_rubies.each do |version|
-      bash = start_session
-      test_server_still_running(bash)
-      start_server(version, bash)
-      run_test_script
-      log_server_memory_usage(bash)
-      stop_server(bash)
-      bash.close!
+    if @n > 0
+      run_tests
+      analyze_results
     end
-  end
 
-  def rvm_installed?
-    (`rvm` =~ /\ARuby/) == 0
-  rescue
-    false
-  end
-
-  def rbenv_installed?
-    (`rbenv -v` =~ /\Arbenv/) == 0
-  rescue
-    false
+    render_screen
   end
 
   def determine_ruby_manager
-    $ruby_manager = case
-    when rvm_installed?
-      :rvm
-    when rbenv_installed?
-      :rbenv
-    else
+    @ruby_manager = Rvm.ruby_manager || Rbenv.ruby_manager
+
+    unless @ruby_manager
       raise 'Please install RVM, Rbenv or change the script to use another Ruby version manager'
     end
   end
 
-  def list_available_rubies
-    versions = []
-
-    case $ruby_manager
-    when :rvm
-      `rvm list`
-        .split("\n")
-        .map { |version| version.scan(/ ([a-z]+\-[\d\.\-previw]+) +.*/)&.first&.first }
-        .compact
-        .sort
-        .each do |version|
-          versions << [ version, nil ]
-
-          if version =~ /ruby\-3.0/
-            versions << [ version, '--jit']
-          end
-
-          if version =~ /ruby\-3.1/ || version =~ /ruby\-3.2/
-            versions << [ version, '--mjit']
-            versions << [ version, '--yjit --yjit-exec-mem-size=8']
-          end
-        end
-
-    when :rbenv
-      `rbenv versions`
-        .split("\n")
-        .map { |version| version.scan(/[\* ]+([a-z\-+]*[\d\.\-previw]+) *.*/)&.first&.first }
-        .compact
-        .sort
-        .each do |version|
-          versions << [ version, nil ]
-
-          if version =~ /3.0/
-            versions << [ version, '--jit']
-          end
-
-          if version =~ /3.1|3.2/
-            versions << [ version, '--mjit']
-            versions << [ version, '--yjit --yjit-exec-mem-size=8']
-          end
-        end
-
-    end
-
-    versions
-  end
-
-  def list_rubies
-    rubies   = list_available_rubies
+  def determine_rubies
+    rubies   = @ruby_manager.installed_rubies
     filename = "scripts/#{@app_name}/#{RUBIES_TO_TEST_FILENAME}"
 
     if File.exists?(filename)
@@ -114,10 +59,34 @@ class RubyMeasureResponsetime
       end
     end
 
-    puts 'Testing these rubies:'
-    rubies.each { |r| puts r.compact.join(' ') }
+    @rubies = rubies.map { |r| RubyStats.new(r) }
+  end
 
-    rubies
+  def render_screen
+    system 'clear'
+    if @n > 0
+      puts "Testing '#{@app_name}' with these rubies (N = #{@n})"
+    else
+      puts "Rubies for testing '#{@app_name}' (set N > 0 to run tests)"
+    end
+
+    puts "\nRuby                     JIT     Memory  Runtime  Average  Errors"
+    puts '–' * 65
+    @rubies.each { |r| puts r }
+    puts '–' * 65
+  end
+
+  def run_tests
+    @rubies.each do |version|
+      render_screen
+      bash = start_session
+      test_server_still_running(bash)
+      start_server(version, bash)
+      run_test_script(version)
+      log_server_memory_usage(version, bash)
+      stop_server(bash)
+      bash.close!
+    end
   end
 
   def cmd_remove_gemfile_lock
@@ -125,16 +94,14 @@ class RubyMeasureResponsetime
   end
 
   # def cmd_create_ruby_version_file(folder, version)
-  #   if $ruby_manager == :rbenv
+  #   if @ruby_manager == :rbenv
   #     # "echo '#{version}' > #{folder}/.ruby-version;\neval \"$(rbenv init -)\";"
   #     "eval \"$(rbenv init -)\";"
   #   end
   # end
 
   def cmd_initialize_ruby_version_manager
-    if $ruby_manager == :rbenv
-      "eval \"$(rbenv init -)\";"
-    end
+    @ruby_manager.cmd_initialize_ruby_version_manager
   end
 
   def cmd_switch_to_folder(folder)
@@ -142,12 +109,7 @@ class RubyMeasureResponsetime
   end
 
   def cmd_switch_to_ruby(version)
-    case $ruby_manager
-    when :rvm
-      "rvm use #{version} > /dev/null;"
-    when :rbenv
-      "export RBENV_VERSION=#{version};"
-    end
+    @ruby_manager.cmd_switch_to_ruby(version.ruby_name)
   end
 
   def cmd_bundle_install
@@ -159,17 +121,16 @@ class RubyMeasureResponsetime
   end
 
   def start_server(version, bash)
-    puts("\n# Ruby '#{version[0]}' #{version[1]} ".ljust(120, '-'))
-
+    puts "\nTesting #{version.ruby_name} #{version.jit}"
     print "  Installing ruby\r"
 
     script = [
       cmd_initialize_ruby_version_manager,
       cmd_switch_to_folder(@app_name),
       cmd_remove_gemfile_lock,
-      cmd_switch_to_ruby(version[0]),
+      cmd_switch_to_ruby(version),
       cmd_bundle_install,
-    ].join("\n")
+    ].compact.join("\n")
 
     bash.execute(script) do |out, err|
       puts out if out
@@ -182,8 +143,7 @@ class RubyMeasureResponsetime
     end
 
     print "  Starting server\r"
-
-    bash.execute(cmd_run_server(version[1])) do |out, err|
+    bash.execute(cmd_run_server(version.jit)) do |out, err|
       puts out if out
 
       if err
@@ -198,13 +158,22 @@ class RubyMeasureResponsetime
     sleep 5
   end
 
-  def run_test_script
+  def run_test_script(version)
     print "  Running test script\r"
+
     t1 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    response = `ruby scripts/#{@app_name}/measure.rb #{@n}`.strip
+    response = `ruby scripts/#{@app_name}/#{MEASURE_FILENAME} #{@n} #{@run_id}`.strip
     t2 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    puts response if response != ''
-    puts "Finished in #{(t2 - t1).round(0)} seconds"
+
+    version.runtime = (t2 - t1).round(0)
+
+    m = response.match(/\A\[([\d\.]+),([\d\.]+)\]\z/)
+    if m
+      version.average     = m[1].to_f
+      version.error_count = m[2].to_i
+    else
+      puts response
+    end
   end
 
   def get_server_pid(bash)
@@ -244,15 +213,16 @@ class RubyMeasureResponsetime
     Session::Bash::Login.new
   end
 
-  def log_server_memory_usage(bash)
+  def log_server_memory_usage(version, bash)
     if pid = get_server_pid(bash)
       mb = `cat /proc/#{pid}/smaps | grep -i pss |  awk '{Total+=$2} END {print Total/1024}'`.strip.to_f
-      puts "Server memory usage estimate: #{mb.round(0)}Mb"
+      # puts "Server memory usage estimate: #{mb.round(0)}Mb"
+      version.memory = mb
     end
   end
 
   def analyze_results
     puts 'Analyzing'
-    `R --vanilla < scripts/#{@app_name}/analyze.R`
+    `R --vanilla < scripts/#{@app_name}/#{ANALYZE_FILENAME}`
   end
 end

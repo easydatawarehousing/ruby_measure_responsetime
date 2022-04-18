@@ -13,8 +13,10 @@ else
   'rodauth'
 end
 
-# Number of times to run the testset.
-n = ARGV.length == 2 ? ARGV[1].to_i : 1_000
+# Number of times to run the testset
+n = ARGV.length >= 2 ? ARGV[1].to_i : 1_000
 
-system 'clear'
-RubyMeasureResponsetime.new(app_name, n)
+# Run ID
+run_id = ARGV.length >= 3 ? ARGV[2].to_i : 1
+
+RubyMeasureResponsetime.new(app_name, n, run_id)

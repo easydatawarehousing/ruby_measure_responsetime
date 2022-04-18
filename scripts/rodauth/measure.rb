@@ -10,7 +10,10 @@ uris = []
 # Number of times to run the testset.
 # This is per url, so gives N times 5 datapoints.
 # Specify as a commandline argument. Default is 1000.
-N = ARGV.length == 1 ? ARGV[0].to_i : 1_000
+N = ARGV.length >= 1 ? ARGV[0].to_i : 1_000
+
+# Run ID
+RUN_ID = ARGV.length >= 2 ? ARGV[1] : '1'
 
 if true
   uris << Net::HTTP::Get.new('http://127.0.0.1:9292/')
@@ -101,8 +104,8 @@ end
 
 f = File.open('data/rodauth/measurements.csv', 'a')
 results.each_with_index do |r, i|
-  f.write("\"#{version}\",1,#{r[0]},#{r[1]},#{r[2].round(3)},#{mgcs.include?(r[1]) ? 1 : 0}\n")
+  f.write("\"#{version}\",#{RUN_ID},#{r[0]},#{r[1]},#{r[2].round(3)},#{mgcs.include?(r[1]) ? 1 : 0}\n")
 end
 f.close
 
-puts "\nAverage time = #{(total_time / success_count.to_f).round(1)}ms Errors = #{error_count}"
+puts "[#{(total_time / success_count.to_f).round(1)},#{error_count}]"
