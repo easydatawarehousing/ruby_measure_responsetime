@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RubyStats
 
   attr_reader   :ruby_name, :jit
@@ -6,6 +8,10 @@ class RubyStats
   def initialize(ruby)
     @ruby_name = ruby[0]
     @jit       = ruby[1]
+  end
+
+  def full_name
+    "#{@ruby_name} #{jit_string}"
   end
 
   def to_s

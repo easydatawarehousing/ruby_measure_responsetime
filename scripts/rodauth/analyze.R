@@ -10,7 +10,7 @@
 # display.brewer.all(n = 5, colorblindFriendly = TRUE)
 # brewer.pal(n = 5, name = "Dark2")
 #
-# col=brewer.pal(n = 5, name = "BrBG")[1 + df$uri]
+# col=brewer.pal(n = 5, name = "BrBG")[df$uri]
 
 options(width=150, echo=FALSE)
 # system("clear")
@@ -38,7 +38,7 @@ for(i in 1:length(versions)) {
 
   png(file=paste0("data/rodauth/plots/rodauth_1_", df[1, 1],".png"), width=1920, height=1080)
 
-  plot(df$y ~ df$x, pch=19, cex=0.2, ylim=c(0, 15), col=(1 + df$uri), xlab="Run", ylab="milliseconds", main=df[1, 1])
+  plot(df$y ~ df$x, pch=19, cex=0.2, ylim=c(0, 15), col=df$uri, xlab="Run", ylab="milliseconds", main=df[1, 1])
 
   xpos = length(df$y) / 10
   text(xpos, 15, paste(length(df[df$y > 15,]$y), "measurements [y > 15]"), pos=1, col="blue")
@@ -67,7 +67,7 @@ for(i in 1:length(versions)) {
 
   png(file=paste0("data/rodauth/plots/rodauth_detail_2_", df[1, 1],".png"), width=1920, height=1080)
 
-  plot(df$y ~ df$x, pch=19, cex=0.2, ylim=c(0.5, 2.5), col=(1 + df$uri), xlab="Run", ylab="milliseconds", main=df[1, 1])
+  plot(df$y ~ df$x, pch=19, cex=0.2, ylim=c(0.5, 2.5), col=df$uri, xlab="Run", ylab="milliseconds", main=df[1, 1])
 
   xpos = length(df$y) / 10
   text(xpos, 2.5, paste(length(df[df$y > 2.5,]$y), "measurements [y > 2.5]"), pos=1, col="blue")

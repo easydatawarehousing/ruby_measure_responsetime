@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Rbenv
 
   def self.ruby_manager

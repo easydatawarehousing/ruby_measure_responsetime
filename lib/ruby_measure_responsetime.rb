@@ -1,13 +1,18 @@
+# frozen_string_literal: true
+
 require 'session'
+require 'net/http'
+require 'json'
 require 'yaml'
+require 'ruby-progressbar'
 require_relative 'ruby_measure_responsetime/rvm'
 require_relative 'ruby_measure_responsetime/rbenv'
 require_relative 'ruby_measure_responsetime/ruby_stats'
 
 class RubyMeasureResponsetime
 
-  # Name of Ruby script to run test
-  MEASURE_FILENAME = 'measure.rb'
+  # Name of module containing test script
+  MEASURE_MODULE_NAME = 'measure'
 
   # Name of file specifying which rubies should be used in the test
   RUBIES_TO_TEST_FILENAME = 'rubies.yml'
@@ -24,6 +29,7 @@ class RubyMeasureResponsetime
       exit 1
     end
 
+    require_measurement_script
     determine_ruby_manager
     determine_rubies
 
@@ -33,6 +39,11 @@ class RubyMeasureResponsetime
     end
 
     render_screen
+  end
+
+  def require_measurement_script
+    require_relative "../scripts/#{@app_name}/#{MEASURE_MODULE_NAME}"
+    self.class.send(:include, Measure)
   end
 
   def determine_ruby_manager
@@ -83,6 +94,7 @@ class RubyMeasureResponsetime
       test_server_still_running(bash)
       start_server(version, bash)
       run_test_script(version)
+      save_results
       log_server_memory_usage(version, bash)
       stop_server(bash)
       bash.close!
@@ -121,8 +133,7 @@ class RubyMeasureResponsetime
   end
 
   def start_server(version, bash)
-    puts "\nTesting #{version.ruby_name} #{version.jit}"
-    print "  Installing ruby\r"
+    puts "\nTesting #{version.full_name}\nInstalling ruby"
 
     script = [
       cmd_initialize_ruby_version_manager,
@@ -142,7 +153,7 @@ class RubyMeasureResponsetime
       end
     end
 
-    print "  Starting server\r"
+    puts "Starting server"
     bash.execute(cmd_run_server(version.jit)) do |out, err|
       puts out if out
 
@@ -152,42 +163,41 @@ class RubyMeasureResponsetime
       end
     end
 
-    # Give server some time to start so we don't have to
-    # handle 'server not found' errors in the testscript.
+    # Give server some time to start.
     # Increase this time if needed for your test setup.
-    sleep 5
+    sleep 2
   end
 
   def run_test_script(version)
-    print "  Running test script\r"
-
+    measurement_prepare
     t1 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    response = `ruby scripts/#{@app_name}/#{MEASURE_FILENAME} #{@n} #{@run_id}`.strip
+    measure_run
     t2 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-
+    measure_finish(version)
     version.runtime = (t2 - t1).round(0)
-
-    m = response.match(/\A\[([\d\.]+),([\d\.]+)\]\z/)
-    if m
-      version.average     = m[1].to_f
-      version.error_count = m[2].to_i
-    else
-      puts response
-    end
   end
 
-  def get_server_pid(bash)
-    # `lsof -ti:9292`.strip
-    pid = `ps -ef | awk '$8=="puma" {print $2}'`.strip
-    pid == '' ? nil : pid
-    # own_pid = bash.execute('echo $$').first.strip
-    # pids = bash.execute("ps -o pid= -g $(ps -o sid= -p #{own_pid})").first.split("\n").map(&:strip)
-    # own_idx = pids.find_index(own_pid)
-    # own_idx ? pids[own_idx + 1] : nil
+  def save_results
+    puts "Saving results"
+    datafile_name = "data/#{@app_name}/measurements.csv"
+
+    f = if File.exist?(datafile_name)
+      File.open(datafile_name, 'a')
+    else
+      f = File.open(datafile_name, 'w')
+      f.write("version,run,uri,x,y,mgc\n")
+      f
+    end
+
+    @results.each do |r|
+      f.write("\"#{@reported_ruby_version}\",#{@run_id},#{r[0]},#{r[1]},#{r[2].round(3)},#{@mgcs.include?(r[1]) ? 1 : 0}\n")
+    end
+
+    f.close
   end
 
   def stop_server(bash)
-    if pid = get_server_pid(bash)
+    if pid = measurement_server_pid
       bash.execute "kill -9 #{pid}" do |out, err|
         puts out if out
 
@@ -203,7 +213,7 @@ class RubyMeasureResponsetime
   end
 
   def test_server_still_running(bash)
-    if pid = get_server_pid(bash)
+    if pid = measurement_server_pid
       puts "A server is already running, process ID: #{pid}"
       exit 1
     end
@@ -214,7 +224,7 @@ class RubyMeasureResponsetime
   end
 
   def log_server_memory_usage(version, bash)
-    if pid = get_server_pid(bash)
+    if pid = measurement_server_pid
       mb = `cat /proc/#{pid}/smaps | grep -i pss |  awk '{Total+=$2} END {print Total/1024}'`.strip.to_f
       # puts "Server memory usage estimate: #{mb.round(0)}Mb"
       version.memory = mb

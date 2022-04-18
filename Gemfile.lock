@@ -1,12 +1,14 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ruby-progressbar (1.11.0)
     session (3.2.0)
 
 PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  ruby-progressbar
   session
 
 RUBY VERSION
