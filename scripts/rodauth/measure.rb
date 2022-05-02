@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# All logic specific to the application being tested goes here.
+# The 'Measure' module is included in the main script,
+# so all instance variables of the main script may be used.
 module Measure
 
   MEASURE_HOST = '127.0.0.1'
@@ -7,19 +10,40 @@ module Measure
 
   private
 
+  # Shell command to determine the process-id (pid) of the application server
   def measurement_server_pid
-    # Getting the 'puma' process seems most reliable way of determining the server pid.
-    # It doesn't work for JRuby.
+    # Getting the puma or rackup process seems most reliable way of determining the server pid.
+    #
     # An alternative could be the pid associated with port 9292:
-    # `lsof -ti:9292`.strip
-    pid = `ps -ef | awk '$8=="puma" {print $2}'`.strip
+    # pid = `lsof -ti:9292`.strip
+    #
+    pid = `ps -ef | awk 'match($0,/puma|rackup/) && $8!="awk" && $8!="sh" {print $2}'`.strip
     pid == '' ? nil : pid
   end
 
+  # Shell command to remove Gemfile.lock file
+  def cmd_remove_application_gemfile_lock
+    'rm -f Gemfile.lock;'
+  end
+
+  # Shell command to switch to the application folder
+  def cmd_switch_to_application_folder
+    "cd apps/#{@app_name} > /dev/null;"
+  end
+
+  # Shell command to bundle gems
+  def cmd_application_bundle_install
+    'bundle install > /dev/null;'
+  end
+
+  # Shell command to start the server process in the background, so end with &
+  def cmd_measurement_run_server(jit)
+    "ruby #{jit} $(which rackup) --quiet > /dev/null 2>&1 &"
+  end
+
+  # Setup tests: set counters and determine uri's
   def measurement_prepare
     @uris          = [] # Uri's to test
-    @mgcs          = [] # Major garbage collection runs
-    @results       = [] # Measurement data
     @error_count   = 0
     @success_count = 0
     @total_time    = 0.0
@@ -65,7 +89,8 @@ module Measure
     end
   end
 
-  def measure_run
+  # Execute tests: open connection to the server, run tests, show a progress-bar
+  def measure_run(_version)
     _measure_get_ruby_version
 
     bar = ProgressBar.create(title: 'Testing', format: '%t %a %j% |%B| %c/%C', total: @n)
@@ -80,6 +105,8 @@ module Measure
     bar.finish
   end
 
+  # Private method to test if the server is alive and
+  # get the Ruby version reported by the server
   def _measure_get_ruby_version
     10.times do
       begin
@@ -91,6 +118,7 @@ module Measure
     end
   end
 
+  # Private method to execute one test per uri and measure response-times
   def _measure_run_uris(x, http)
     @uris.each_with_index do |uri, uri_index|
       # CLOCK_MONOTONIC should work on most platforms
@@ -111,14 +139,37 @@ module Measure
     @error_count +=1
   end
 
+  # Finish tests: get garbage collection information from the server,
+  # log error-count and mean response-time
   def measure_finish(version)
     begin
-      @mgcs = JSON.parse(Net::HTTP.get(URI("http://#{MEASURE_HOST}:#{MEASURE_PORT}/gc")))
+      @mgcs = JSON.parse(
+        Net::HTTP.get(URI("http://#{MEASURE_HOST}:#{MEASURE_PORT}/gc"))
+      ).select { |mgc| mgc > 1 }
     rescue
       nil
     end
 
-    version.average     = (@total_time / @success_count.to_f).round(1) if @success_count > 0
+    version.mean        = (@total_time / @success_count.to_f).round(1) if @success_count > 0
     version.error_count = @error_count
+  end
+
+  # Descriptive text to add to the report
+  def measure_readme_description
+    <<~DESCRIPTION
+      This is a test application based on [roda-sequel-stack](https://github.com/jeremyevans/roda-sequel-stack.git),
+      using [Roda](https://github.com/jeremyevans/roda) as the web framework,
+      [Sequel](https://github.com/jeremyevans/sequel) as the database library
+      and [Rodauth](https://github.com/jeremyevans/rodauth) for authentication.
+
+      Performance of this application was tested by continuously sending requests to the server.
+      Five url's were included in the test:
+
+      1. index-page without cookie (black)
+      2. create-account-page (red)
+      3. reset-password-request-page (green)
+      4. index-page with good cookie (blue)
+      5. index-page with bad cookie (cyan)
+    DESCRIPTION
   end
 end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Logic to use Rbenv
 class Rbenv
 
   def self.ruby_manager
