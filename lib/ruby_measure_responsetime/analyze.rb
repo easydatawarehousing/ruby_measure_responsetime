@@ -23,12 +23,14 @@ module Analyze
 
   def analyze_results
     puts 'Analyzing'
-    analyze_create_data_folders
-    analyze_os_info
-    analyze_cpu_info
-    analyze_determine_statistics
-    analyze_parse_statistics
-    analyze_create_readme
+    if @rubies.length > 0 && File.exist?("data/#{@app_name}/measurements.csv")
+      analyze_create_data_folders
+      analyze_os_info
+      analyze_cpu_info
+      analyze_determine_statistics
+      analyze_parse_statistics
+      analyze_create_readme
+    end
   end
 
   def analyze_create_data_folders

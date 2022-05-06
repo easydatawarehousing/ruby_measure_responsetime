@@ -101,8 +101,12 @@ class RubyMeasureResponsetime
       puts "#{@analyze_only ? 'Analyzing' : 'Testing'} Rubies for '#{@app_name}' (set N > 0 to run tests)\n\n"
     end
 
-    puts @rubies.first.title_string
-    @rubies.each { |r| puts r }
+    if @rubies.length > 0
+      puts @rubies.first.title_string
+      @rubies.each { |r| puts r }
+    else
+      puts 'No rubies found'
+    end
     puts ''
   end
 

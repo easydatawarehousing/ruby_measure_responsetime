@@ -125,7 +125,8 @@ Some possible improvements:
 - For analysis: create a Jupyter notebook, instead of a markdown file
 - Use (Sci)Ruby instead of R for analysis.
   Or generate the R script from Ruby using parameters to configure the outcome
-- Add support for other Ruby version managers (chruby)
+- Add support for other Ruby version managers (chruby, asdf)
+- Get [Fullstaq Ruby](https://fullstaqruby.org/) working
 - Store memory usage per run and add the average to the table in the report
 
 The author is _not_ working on any of these items :)

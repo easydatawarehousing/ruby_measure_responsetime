@@ -4,6 +4,8 @@
 # except the ones in the exclude list.
 #
 # Or add some entries in the include list, the exclude list will then be ignored.
+#
+# Note that rvm lists rubies like `ruby-3.1.2`, rbenv shows `3.1.2`
 
 include:
 # - ruby-2.0.0-p648
