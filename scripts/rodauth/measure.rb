@@ -90,8 +90,9 @@ module Measure
   end
 
   # Execute tests: open connection to the server, run tests, show a progress-bar
-  def measure_run(_version)
+  def measure_run(version)
     _measure_get_ruby_version
+    @reported_ruby_version ||= version.full_name
 
     bar = ProgressBar.create(title: 'Testing', format: '%t %a %j% |%B| %c/%C', total: @n)
 

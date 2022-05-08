@@ -22,7 +22,10 @@ these commands:
 - run the application server process as a background task
 
 The script then runs the tests by bombarding the server with requests.
-Finally the server process is terminated (`kill -9`).
+At the end of the test the server process is terminated (`kill -9`).
+All measurement data and some statistics are saved to two csv files.
+This data is used by an R script to create two plots per Ruby version.
+Finally a markdown file is generated listing all statistics and plots.
 
 ## Test your own application
 These scripts are meant to be easily tweakable.
@@ -53,7 +56,7 @@ Steps to test your own application:
   Default is 5ms. In the same file you can set the Y range of
   plots. For instance `ylim=c(0, 15)` sets a range from 0ms to 15ms
 - Run the script using `bin/test_all_rubies.rb <your_app_name> <N> <Run-ID>`
-- You can run only the analysis phase by calling `bin/analyze_all_rubies.rb <your_app_name>`
+- To skip testing and only run the analysis use `bin/analyze_all_rubies.rb <your_app_name>`
 
 ## Install and run
 ### Ruby
@@ -101,22 +104,22 @@ Some things to keep in mind:
 - These scripts are meant to explore the differences between Ruby versions,
   not test the end-2-end performance of for instance a website.
   In the real world there are many more factors influencing total reponse time,
-  mainly network latency, but also things like proxy servers and load balancers
+  mainly network latency, but also things like proxy servers or load balancers
 - These scripts are __not__ emulating a full webbrowser page load (so including
   js/css/images), just some html requests to see differences between Ruby versions
 - The test application is bombarded by requests. In reality application server
   traffic is much more irregular, giving Ruby the time to do garbage collection.
   It is possible to simulate this by adding some random sleep time to
-  `measure_run` method
+  `measure_run` method between each http call
 - If the tested application spends al lot of time in C functions (for instance
-  decrypting cookies) the effect of using JIT is less pronounced. The Rodauth
-  test application shows this a bit
+  decrypting cookies or using sqlite) the effect of using JIT is less pronounced.
+  The Rodauth test application shows this a bit
 - Average response time is not a very useful statistic. It can hide a lot of things.
-  Slow response count and median response time are more useful.
-  But it does depend on the type of application
+  Slow response count and median response time are more useful,
+  but it does depend on the type of application
 - Generated plots sometimes show a lot of 'noise': dots all over the place and
   outside the main lines around the median. Each plot contains 250 thousand or
-  more dots, the vast majority around the median and overlapping each other.
+  more dots, the vast majority of dots is around the median, overlapping each other.
   The thousand or so dots you can see individually do not mean that much!
 
 ## Improvements/ideas

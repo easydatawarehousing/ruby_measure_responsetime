@@ -3,7 +3,9 @@
 class RubyStats
 
   attr_reader   :ruby_name, :jit, :slow, :median
-  attr_accessor :memory, :runtime, :mean, :error_count, :count, :mgcs
+
+  attr_accessor :memory_start, :memory_finish, :runtime,
+                :mean, :error_count, :count, :mgcs
 
   def initialize(ruby)
     @ruby_name = ruby[0]
@@ -24,7 +26,8 @@ class RubyStats
       @ruby_name[0..23].ljust(25),
       # match_name.ljust(25),
       jit_string.ljust(4),
-      memory_string.rjust(9),
+      memory_string(:start).rjust(9),
+      memory_string(:finish).rjust(9),
       runtime_string.rjust(9),
       mean_string.rjust(9),
       median_string.rjust(9),
@@ -37,8 +40,8 @@ class RubyStats
   end
 
   def title_string
-    "| Ruby                      | JIT  |    Memory |   Runtime |      Mean |    Median |     Slow |   Errors |        N |  GC runs |\n" +
-    '| ------------------------- | ---- | --------: | --------: | --------: | --------: |--------: | -------: | -------: | -------: |'
+    "| Ruby                      | JIT  | Mem start |   Mem end |   Runtime |      Mean |    Median |     Slow |   Errors |        N |  GC runs |\n" +
+    '| ------------------------- | ---- | --------: | --------: | --------: | --------: | --------: |--------: | -------: | -------: | -------: |'
   end
 
   def set_metric_value(type, value)
@@ -66,8 +69,12 @@ class RubyStats
     end
   end
 
-  def memory_string
-    @memory ? "#{@memory.round(0)}Mb" : ''
+  def memory_string(at)
+    if at == :start
+      @memory_start ? "#{@memory_start.round(0)}Mb" : ''
+    else
+      @memory_finish ? "#{@memory_finish.round(0)}Mb" : ''
+    end
   end
 
   def runtime_string

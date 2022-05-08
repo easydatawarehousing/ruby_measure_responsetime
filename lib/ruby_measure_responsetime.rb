@@ -23,6 +23,9 @@ class RubyMeasureResponsetime
   # Name of file specifying which rubies should be used in the test
   RUBIES_TO_TEST_FILENAME = 'rubies.yml'
 
+  # Set line-end to use. Might be \r\n on windows ?
+  CSV_LINE_TERMINATOR = "\n"
+
   def initialize(app_name, n, run_id, analyze_only = false)
     @app_name     = app_name
     @n            = n
@@ -39,6 +42,10 @@ class RubyMeasureResponsetime
       exit 1
     end
 
+    run
+  end
+
+  def run
     reset_result_variables
     require_measurement_script
     determine_ruby_manager
@@ -115,12 +122,16 @@ class RubyMeasureResponsetime
       bash = start_session
       test_server_still_running(bash)
       start_server(version, bash)
+      log_server_memory_usage(version, bash, :start)
       run_test_script(version)
-      save_results
-      log_server_memory_usage(version, bash)
+      save_measurements
+      log_server_memory_usage(version, bash, :finish)
       stop_server(bash)
+      save_statistics(version)
       bash.close!
+      reset_result_variables
       render_screen
+      GC.start
     end
   end
 
@@ -157,27 +168,43 @@ class RubyMeasureResponsetime
     version.mgcs = @mgcs.length
   end
 
-  def save_results
+  def save_measurements
     puts "Saving results"
-    datafile_name = "data/#{@app_name}/measurements.csv"
-
     f = if File.exist?(datafile_name)
       File.open(datafile_name, 'a')
     else
       f = File.open(datafile_name, 'w')
-      f.write("version,run,uri,x,y,mgc\n")
+      f.write("version,run,uri,x,y,mgc#{CSV_LINE_TERMINATOR}")
       f
     end
 
     @results.each_with_index do |r, i|
-      f.write("\"#{@reported_ruby_version}\",#{@run_id},#{r[0]},#{r[1]},#{r[2].round(3)},#{@mgcs.include?(i+1) ? 1 : 0}\n")
+      f.write("\"#{@reported_ruby_version}\",#{@run_id},#{r[0]},#{r[1]},#{r[2].round(3)},#{@mgcs.include?(i+1) ? 1 : 0}#{CSV_LINE_TERMINATOR}")
     end
 
     f.close
+  end
 
-    reset_result_variables
+  def save_statistics(version)
+    puts "Saving statistics"
+    f = if File.exist?(statsfile_name)
+      File.open(statsfile_name, 'a')
+    else
+      f = File.open(statsfile_name, 'w')
+      f.write("version,run,memory_start,memory_finish,runtime,error_count#{CSV_LINE_TERMINATOR}")
+      f
+    end
 
-    GC.start
+    f.write([
+      "\"#{@reported_ruby_version}\"",
+      @run_id,
+      version.memory_start.round(0).to_i,
+      version.memory_finish.round(0).to_i,
+      version.runtime,
+      version.error_count,
+    ].join(',') + CSV_LINE_TERMINATOR)
+
+    f.close
   end
 
   def stop_server(bash)
@@ -211,10 +238,21 @@ class RubyMeasureResponsetime
     end
   end
 
-  def log_server_memory_usage(version, bash)
-    if pid = measurement_server_pid
-      mb = `cat /proc/#{pid}/smaps | grep -i pss |  awk '{Total+=$2} END {print Total/1024}'`.strip.to_f
-      version.memory = mb
+  def log_server_memory_usage(version, bash, at)
+    3.times do
+      if pid = measurement_server_pid
+        mb = `cat /proc/#{pid}/smaps | grep -i pss |  awk '{Total+=$2} END {print Total/1024}'`.strip.to_f
+
+        if at == :start
+          version.memory_start = mb
+        else
+          version.memory_finish = mb
+        end
+
+        return
+      end
+
+      sleep 1
     end
   end
 end
