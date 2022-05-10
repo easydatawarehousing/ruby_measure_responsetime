@@ -107,6 +107,10 @@ Some things to keep in mind:
   mainly network latency, but also things like proxy servers or load balancers
 - These scripts are __not__ emulating a full webbrowser page load (so including
   js/css/images), just some html requests to see differences between Ruby versions
+- When testing your own application, try to avoid using calls that use the
+  database a lot since this does not reflect Ruby performance.
+  Then again you could use these scripts to compare two or more calls on the
+  same Ruby version, for instance an old and a new implementation
 - The test application is bombarded by requests. In reality application server
   traffic is much more irregular, giving Ruby the time to do garbage collection.
   It is possible to simulate this by adding some random sleep time to

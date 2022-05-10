@@ -46,6 +46,7 @@ class RubyMeasureResponsetime
   end
 
   def run
+    analyze_create_data_folders
     reset_result_variables
     require_measurement_script
     determine_ruby_manager
@@ -165,7 +166,7 @@ class RubyMeasureResponsetime
     t2 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     measure_finish(version)
     version.runtime = (t2 - t1).round(0)
-    version.mgcs = @mgcs.length
+    version.mgcs_count = @mgcs.length
   end
 
   def save_measurements
@@ -191,17 +192,20 @@ class RubyMeasureResponsetime
       File.open(statsfile_name, 'a')
     else
       f = File.open(statsfile_name, 'w')
-      f.write("version,run,memory_start,memory_finish,runtime,error_count#{CSV_LINE_TERMINATOR}")
+      f.write("version,run,")
+      f.write(RUNTIME_STATISTICS.join(','))
+      f.write(CSV_LINE_TERMINATOR)
       f
     end
 
     f.write([
       "\"#{@reported_ruby_version}\"",
       @run_id,
-      version.memory_start.round(0).to_i,
-      version.memory_finish.round(0).to_i,
+      version.memory_start&.round(0)&.to_i,
+      version.memory_finish&.round(0)&.to_i,
       version.runtime,
       version.error_count,
+      version.mgcs_count,
     ].join(',') + CSV_LINE_TERMINATOR)
 
     f.close
@@ -239,7 +243,7 @@ class RubyMeasureResponsetime
   end
 
   def log_server_memory_usage(version, bash, at)
-    3.times do
+    5.times do
       if pid = measurement_server_pid
         mb = `cat /proc/#{pid}/smaps | grep -i pss |  awk '{Total+=$2} END {print Total/1024}'`.strip.to_f
 

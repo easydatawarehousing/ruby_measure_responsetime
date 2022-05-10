@@ -24,7 +24,7 @@ module Analyze
   }
 
   # Statistics saved to csv file
-  SAVED_STATISTICS = %i{ memory_start memory_finish runtime error_count }
+  RUNTIME_STATISTICS = %i{ memory_start memory_finish runtime error_count mgcs_count }
 
   private
 
@@ -39,10 +39,9 @@ module Analyze
   def analyze_results
     puts 'Analyzing'
     if @rubies.length > 0 && File.exist?("#{ANALYZE_DATA_FOLDER}/#{@app_name}/measurements.csv")
-      analyze_create_data_folders
       analyze_os_info
       analyze_cpu_info
-      analyze_collect_run_statistics
+      analyze_collect_runtime_statistics
       analyze_determine_measurement_statistics
       analyze_parse_measurement_statistics
       analyze_create_readme
@@ -66,7 +65,7 @@ module Analyze
     @cpu_info = nil
   end
 
-  def analyze_collect_run_statistics
+  def analyze_collect_runtime_statistics
     # Collect saved statistics, calculate average statistic value and update rubies
     if File.exist?(statsfile_name)
       stats = {}
@@ -75,18 +74,22 @@ module Analyze
         row = r.to_hash
         key = row.delete(:version)
         row.delete(:run)
-        row.transform_values! { |v| v.to_i if v.strip != '' }
+        row.transform_values! { |v| v.to_i if v && v.strip != '' }
         stats[key] = [] unless stats.key?(key)
         stats[key] << row
       end
 
       stats.each do |full_name, values|
-        version = @rubies.find { |r| r.full_name == full_name }
+        version = @rubies.find { |r| r.match_name == full_name }
+        next unless version
 
-        SAVED_STATISTICS.each do |stat|
+        RUNTIME_STATISTICS.each do |stat|
           all_values = values.map { |v| v[stat] }.compact
-          avg = (all_values.sum.to_f / all_values.length).round(0).to_i
-          version.instance_variable_set("@#{stat}".to_sym, avg)
+
+          if all_values.length > 0
+            avg = (all_values.sum.to_f / all_values.length).round(0).to_i
+            version.instance_variable_set("@#{stat}".to_sym, avg)
+          end
         end
       end
     end

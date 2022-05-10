@@ -5,7 +5,7 @@ class RubyStats
   attr_reader   :ruby_name, :jit, :slow, :median
 
   attr_accessor :memory_start, :memory_finish, :runtime,
-                :mean, :error_count, :count, :mgcs
+                :mean, :error_count, :count, :mgcs_count
 
   def initialize(ruby)
     @ruby_name = ruby[0]
@@ -34,7 +34,7 @@ class RubyStats
       @slow.to_s.rjust(8),
       @error_count.to_s.rjust(8),
       @count.to_s.rjust(8),
-      @mgcs.to_s.rjust(8),
+      @mgcs_count.to_s.rjust(8),
       '',
     ].join(' | ').strip
   end

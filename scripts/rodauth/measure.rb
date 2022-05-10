@@ -49,40 +49,40 @@ module Measure
     @total_time    = 0.0
 
     if true
-      @uris << Net::HTTP::Get.new('http://127.0.0.1:9292/')
+      @uris << Net::HTTP::Get.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/")
 
-      @uris << Net::HTTP::Get.new('http://127.0.0.1:9292/create-account')
+      @uris << Net::HTTP::Get.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/create-account")
 
-      @uris << Net::HTTP::Get.new('http://127.0.0.1:9292/reset-password-request')
+      @uris << Net::HTTP::Get.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/reset-password-request")
 
       # Bad cookie
       @uris << begin
-        uri = Net::HTTP::Get.new('http://127.0.0.1:9292/')
+        uri = Net::HTTP::Get.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/")
         uri['Cookie'] = "_App.session=AdRodaLW916eR4imshinUdXYHcRhluUu7GHEmSeL5frzBhRW-oCUbmD9hNAwszFxS-YgVlSJydKk8HUoxVYHMjzPo_Ir6SmWJD_z1I7RiLsXqZQSXL_CrhM-TRcbkEc1djj_fpyefTC1AC5Mdj9TJlcx8mn9L4xrXwHzrrjc95clj5hu6MTfyLvPUsOc5M22hh%3D%3D"
         uri
       end
 
       # Good cookie
       @uris << begin
-        uri = Net::HTTP::Get.new('http://127.0.0.1:9292/')
+        uri = Net::HTTP::Get.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/")
         uri['Cookie'] = "_App.session=AdRodaLW916eR4imshinUdXYHcRhluUu7GHEmSeL5frzBhRW-oCUbmD9hNAwszFxS-YgVlSJydKk8HUoxVYHMjzPo_Ir6SmWJD_z1I7RiLsXqZQSXL_CrhM-TRcbkEc1djj_fpyefTC1AC5Mdj9TJlcx8mn9L4xrXwHzrrjc95clj5hu6MTfyLvPUsOc5M22hg%3D%3D"
         uri
       end
     else
       @uris << begin
-        uri = Net::HTTP::Post.new('http://127.0.0.1:9292/login')
+        uri = Net::HTTP::Post.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/login")
         uri.set_form_data('login' => 'ivo@mydomain.com', 'password' => 'Rodauth1')
         uri
       end
 
       @uris << begin
-        uri = Net::HTTP::Post.new('http://127.0.0.1:9292/login')
+        uri = Net::HTTP::Post.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/login")
         uri.set_form_data('login' => 'ivo@mydomain.com', 'password' => 'Rodauth2')
         uri
       end
 
       @uris << begin
-        uri = Net::HTTP::Post.new('http://127.0.0.1:9292/login')
+        uri = Net::HTTP::Post.new('http://#{MEASURE_HOST}:#{MEASURE_PORT}/login')
         uri.set_form_data('login' => 'ivo@mydomain.com', 'password' => 'A')
         uri
       end
