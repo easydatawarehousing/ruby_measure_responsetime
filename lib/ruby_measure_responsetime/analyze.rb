@@ -144,7 +144,7 @@ module Analyze
     f.write "- Ruby with lowest __mean__* response-time: __#{@rubies.sort_by { |r| r.mean || 9e9 }&.first&.full_name }__\n"
     f.write "\n\\* Mean and median are calculated after warmup (x > N/2).\n\n"
 
-    analyze_add_plot(f, '0_overview', 'Overview of response-times of all tested Rubies', 'Boxplot showing ~99% of all measurements (sorted by responsetime)')
+    analyze_add_plot(f, '0_overview', 'Overview of response-times of all tested Rubies', '[Boxplot](https://en.wikipedia.org/wiki/Box_plot) showing ~99% of all measurements (sorted by responsetime)')
 
     @rubies.each do |ruby|
       analyze_add_plot(f, "1_#{ruby.match_name}", "Response-times #{ruby.full_name}")

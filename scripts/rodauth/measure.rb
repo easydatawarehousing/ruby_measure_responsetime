@@ -52,6 +52,9 @@ module Measure
     @success_count = 0
     @total_time    = 0.0
 
+    # Select some uri's to test
+    # Set to false to test if a side-channel attach is possible
+    # on the login route (spoiler alert: there isn't)
     if true
       @uris << Net::HTTP::Get.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/")
 
