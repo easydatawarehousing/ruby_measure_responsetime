@@ -20,7 +20,8 @@ module Analyze
     slow:   'Slow request counts',
     mean:   'Means',
     median: 'Medians',
-    count:  'Count'
+    count:  'Count',
+    stddev: 'SD',
   }
 
   # Statistics saved to csv file
@@ -139,6 +140,7 @@ module Analyze
     f.write "\n## Winners\n\n"
     f.write "- Ruby with lowest __slow__ response-count: __#{@rubies.sort_by { |r| r.slow || 9e9 }&.first&.full_name }__\n"
     f.write "- Ruby with lowest __median__* response-time: __#{@rubies.sort_by { |r| r.median || 9e9 }&.first&.full_name }__\n"
+    f.write "- Ruby with lowest __standard deviation__ response-time: __#{@rubies.sort_by { |r| r.stddev || 9e9 }&.first&.full_name }__\n"
     f.write "- Ruby with lowest __mean__* response-time: __#{@rubies.sort_by { |r| r.mean || 9e9 }&.first&.full_name }__\n"
     f.write "\n\\* Mean and median are calculated after warmup (x > N/2).\n\n"
 

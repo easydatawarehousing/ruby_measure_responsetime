@@ -54,9 +54,12 @@ Steps to test your own application:
   This can be adjusted in rvm.rb or rbenv.rb
 - Definition of 'slow' requests can be set in 'analyze.R' file.
   Default is 5ms. In the same file you can set the Y range of
-  plots. For instance `ylim=c(0, 15)` sets a range from 0ms to 15ms
+  plots. For instance `ylim_full <- c(0, 15)` sets a range from 0ms to 15ms
 - Run the script using `bin/test_all_rubies.rb <your_app_name> <N> <Run-ID>`
 - To skip testing and only run the analysis use `bin/analyze_all_rubies.rb <your_app_name>`
+- Examine the generated report (data/<your_app_name>/README.md).
+  Determine what the best metrics are for your application.
+  Adjust the R script if needed
 
 ## Install and run
 ### Ruby

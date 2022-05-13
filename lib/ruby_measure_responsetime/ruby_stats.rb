@@ -2,10 +2,11 @@
 
 class RubyStats
 
-  attr_reader   :ruby_name, :jit, :slow, :median
+  attr_reader   :ruby_name, :jit
 
   attr_accessor :memory_start, :memory_finish, :runtime,
-                :mean, :error_count, :count, :mgcs_count
+                :mean, :median, :stddev,
+                :slow, :error_count, :count, :mgcs_count
 
   def initialize(ruby)
     @ruby_name = ruby[0]
@@ -31,6 +32,7 @@ class RubyStats
       runtime_string.rjust(9),
       mean_string.rjust(9),
       median_string.rjust(9),
+      stddev_string.rjust(9),
       @slow.to_s.rjust(8),
       @error_count.to_s.rjust(8),
       @count.to_s.rjust(8),
@@ -40,8 +42,8 @@ class RubyStats
   end
 
   def title_string
-    "| Ruby                      | JIT  | Mem start |   Mem end |   Runtime |      Mean |    Median |     Slow |   Errors |        N |  GC runs |\n" +
-    '| ------------------------- | ---- | --------: | --------: | --------: | --------: | --------: |--------: | -------: | -------: | -------: |'
+    "| Ruby                      | JIT  | Mem start |   Mem end |   Runtime |      Mean |    Median |   Std.Dev |     Slow |   Errors |        N |  GC runs |\n" +
+    '| ------------------------- | ---- | --------: | --------: | --------: | --------: | --------: | --------: |--------: | -------: | -------: | -------: |'
   end
 
   def set_metric_value(type, value)
@@ -52,6 +54,8 @@ class RubyStats
       @mean = value.to_f
     when :median
       @median = value.to_f
+    when :stddev
+      @stddev = value.to_f
     when :count
       @count = value.to_i
     end
@@ -87,5 +91,9 @@ class RubyStats
 
   def median_string
     @median ? "#{@median.round(2)}ms" : ''
+  end
+
+  def stddev_string
+    @stddev ? "#{@stddev.round(2)}ms" : ''
   end
 end

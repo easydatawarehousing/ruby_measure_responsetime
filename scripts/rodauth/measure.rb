@@ -5,8 +5,12 @@
 # so all instance variables of the main script may be used.
 module Measure
 
+  # Hostname and port
   MEASURE_HOST = '127.0.0.1'
   MEASURE_PORT = 9292
+
+  # Read / open timeouts in seconds
+  NET_TIMEOUTS = [15, 10]
 
   private
 
@@ -69,21 +73,29 @@ module Measure
         uri
       end
     else
+      # Correct password
+      # @uris << begin
+      #   uri = Net::HTTP::Post.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/login")
+      #   uri.set_form_data('login' => 'ivo@mydomain.com', 'password' => 'Rodauth1')
+      #   uri
+      # end
+
+      # Almost correct password
       @uris << begin
         uri = Net::HTTP::Post.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/login")
-        uri.set_form_data('login' => 'ivo@mydomain.com', 'password' => 'Rodauth1')
+        uri.set_form_data('login' => 'ivo@mydomain.com', 'password' => 'Rodauth0')
         uri
       end
 
+      # Incorrect passwords
       @uris << begin
         uri = Net::HTTP::Post.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/login")
-        uri.set_form_data('login' => 'ivo@mydomain.com', 'password' => 'Rodauth2')
-        uri
-      end
-
-      @uris << begin
-        uri = Net::HTTP::Post.new('http://#{MEASURE_HOST}:#{MEASURE_PORT}/login')
         uri.set_form_data('login' => 'ivo@mydomain.com', 'password' => 'A')
+        uri
+      end
+      @uris << begin
+        uri = Net::HTTP::Post.new("http://#{MEASURE_HOST}:#{MEASURE_PORT}/login")
+        uri.set_form_data('login' => 'ivo@mydomain.com', 'password' => 'z'*20)
         uri
       end
     end
@@ -96,7 +108,7 @@ module Measure
 
     bar = ProgressBar.create(title: 'Testing', format: '%t %a %j% |%B| %c/%C', total: @n)
 
-    Net::HTTP.start(MEASURE_HOST, MEASURE_PORT, { read_timeout: 2, open_timeout: 2 }) do |http|
+    Net::HTTP.start(MEASURE_HOST, MEASURE_PORT, { read_timeout: NET_TIMEOUTS[0], open_timeout: NET_TIMEOUTS[1] }) do |http|
       @n.times do |x|
         _measure_run_uris(x + 1, http)
         bar.increment unless bar.finished?
@@ -136,7 +148,8 @@ module Measure
     end
 
     GC.start if x % 5_000 == 0
-  rescue
+  rescue => e
+    puts '', e
     @error_count +=1
   end
 
