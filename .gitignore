@@ -1,7 +1,6 @@
 /.env.rb
 *.db
 *.csv
-*.png
 *.log
 *__
 /apps/rodauth/Gemfile.lock

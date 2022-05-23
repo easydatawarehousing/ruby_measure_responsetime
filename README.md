@@ -1,77 +1,61 @@
 # RubyMeasureResponsetime
 Some scripts to measure the responsetime of a Ruby application.
-It allows to test a range of ruby versions and creates a nice
-little report of the results.
+It automates testing of a range of ruby versions you have installed
+on your machine. Instead of just reporting some aggregated statistics
+it creates a nice little report where you can see the results over time.
+
+## What can I use this for
+Comparing the performance of various Ruby versions for _your_ real
+world application. The application must support some kind of
+request-response cycle. Rack based applications including Rails work well.
+gRpc applications can be tested. And I'm sure other applications
+will fit.  
+Another possible use is comparing performance of two or more implementations
+of some function behind a uri. For instance an old an a new version of
+the same functionality.  
+Or seeing if a sidechannel (timing) vulnerabitity was left open.
+For instance a login uri.  
+Or (after some tweaking of the script) see what the effect is of swapping
+one gem for another. Generating json springs to mind.
 
 ## Examples
+Some example reports:
 
-- A [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth))
+- A [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing Ruby 2.0 to 3.2, jRuby and Truffleruby
+- A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), testing Ruby 2.5 to 3.2 and Truffleruby
+- A [gRPC based search](data/search/README.md) application, testing Ruby 2.7 to 3.1
 
 ## How does it work
 The script first determines which Rubies are installed on your machine
 (optionally you can specify which Rubies to include or skip).
-If available MJIT and YJIT are tested as a seperate Ruby.
+If available MJIT and YJIT are tested as a separate Ruby version.
 For every Ruby version the script starts a `bash --login` shell and runs
 these commands:
 
-- initialize Ruby version manager
-- cd to the test-application folder
-- remove the `Gemfile.lock` file (save it first if you somehow need the existing version!)
-- switch to the specified Ruby version
-- run `bundle install`
-- run the application server process as a background task
-
-The script then runs the tests by bombarding the server with requests.
-At the end of the test the server process is terminated (`kill -9`).
-All measurement data and some statistics are saved to two csv files.
-This data is used by an R script to create two plots per Ruby version.
-Finally a markdown file is generated listing all statistics and plots.
-
-## Test your own application
-These scripts are meant to be easily tweakable.
-No two applications are the same, so the defaults used for the sample
-application might not suit your needs.
-
-Every application that should be tested has its own logic living
-in folder `scripts/your_app_name`.
-Anything specific to an application can be defined in the files
-living there.
-
-Steps to test your own application:
-
-- Create folder `scripts/<your_app_name>`
-- Copy all files from `scripts/rodauth` to the new folder
-- Edit `rubies.yml` to include or exclude the desired Ruby versions to test
-- Create folder `data/<your_app_name>`
-- Edit `analyze.R`, replace 'rodauth' with 'your_app_name'
-- Edit `measure.rb`. Review all methods. If your application
-  is accessible via http most methods can stay as they are.  
-  The Rodauth test application implements two routes
-  to get the Ruby version from the server and to get garbage collection
-  information. If you can't add these routes to your application either
-  use an alternative route or skip these steps.
-- You may want to set the memory limit for YJIT. Default is 8Mb.
-  This can be adjusted in rvm.rb or rbenv.rb
-- Definition of 'slow' requests can be set in 'analyze.R' file.
-  Default is 5ms. In the same file you can set the Y range of
-  plots. For instance `ylim_full <- c(0, 15)` sets a range from 0ms to 15ms
-- Run the script using `bin/test_all_rubies.rb <your_app_name> <N> <Run-ID>`
-- To skip testing and only run the analysis use `bin/analyze_all_rubies.rb <your_app_name>`
-- Examine the generated report (data/<your_app_name>/README.md).
-  Determine what the best metrics are for your application.
-  Adjust the R script if needed
+- Initialize Ruby version manager
+- CD to the test-application folder
+- Remove the `Gemfile.lock` file (save it first if you somehow need the existing version!)
+- Switch to the specified Ruby version
+- Run `bundle install`
+- Run the application server process as a background task
+- Run the tests by bombarding the server with requests
+- At the end of the test terminate the server process (`kill -9`)
+- All measurement data and some statistics are saved to two csv files
+- This data is used by an R script to create two plots per Ruby version
+- Finally a markdown file is generated listing all statistics and plots.
 
 ## Install and run
 ### Ruby
-These scripts currently support RVM and RBenv as version managers.
+These scripts currently only support RVM and RBenv as version managers.
 
 ### R
-Install [R](https://www.r-project.org/about.html) to run analysis of the results:
+Install [R](https://www.r-project.org/about.html) to run analysis of the results.
+On Ubuntu/Debian:
 
     sudo apt-get install r-base libpng-dev
 
 ### Run the script
-To see which Ruby versions will be tested run specify N=0:
+To see which Ruby versions will be tested specify N=0, like:
 
     bin/test_all_rubies.rb rodauth 0
 
@@ -79,18 +63,23 @@ Tweak [rubies.yml](/scripts/rodauth/rubies.yml) if needed.
 The test Rodauth application was tested with MRI 2.0 to 3.2, JRuby and Truffleruby.
 
 Then run the test by specifying the number of iterations (N) and optionally a
-'Run-ID' (simply an integer added to each record of the output .csv file):
+'Run-ID'. The Run-ID is simply an integer greater than zero added to each record
+of the output .csv file. It is currently not used in the generated report but might
+be useful for detailed analysis.
 
     bin/test_all_rubies.rb rodauth 1000 1
 
+To see the effect of mjit and truffleruby a significant number of iterations
+might be needed.
+
 ### Colorblind friendly colors
 Plots use the default colors defined by R. To use colorblind friendly colors,
-first install color-brewer package:
+first install color-brewer package. In a shell:
 
     R --vanilla
     install.packages('RColorBrewer')
     library(RColorBrewer)
-    # Use n = 5 to have 5 different colors, one per tested uri
+    # Example to use 5 different colors, one per tested uri:
     display.brewer.all(n = 5, colorblindFriendly = TRUE)
     q()
 
@@ -101,19 +90,58 @@ change all `col=df$uri` to:
     col=brewer.pal(n = 5, name = "BrBG")[df$uri]
 
 (replace BrBG with the name of the desired color palette).
+
+## Test your own application
+No two applications are the same, so the defaults used for the sample
+applications might not suit your needs.
+These scripts are meant to be easily tweakable, with most things split up
+into separate modules and methods that you can change to your heart's content.
+
+Every application that should be tested has its own logic living
+in folder `scripts/your_app_name`.
+Anything specific to an application can be defined in the files
+living there.
+
+Steps to test your own application:
+
+- Create folder `scripts/<your_app_name>`
+- Copy all files from `scripts/rodauth` (or `scripts/rails_devise`) to the new folder
+- Edit `rubies.yml` to include or exclude the desired Ruby versions to test
+- Edit `analyze.R`, replace the value of variable 'app_name' with 'your_app_name'
+- Edit `measure.rb`. Review all methods. If your application
+  is accessible via http most methods can stay as they are.  
+  The Rodauth test application implements two routes
+  to get the Ruby version from the server and to get garbage collection information.
+  If you can't add these routes to your application simply skip these steps
+- You may want to adjust the memory limit for YJIT. Default is 8Mb.
+  This can be set in `rvm.rb` or `rbenv.rb`
+- Run the script using `bin/test_all_rubies.rb <your_app_name> <N> <Run-ID>`
+- Examine the generated report (data/<your_app_name>/README.md).
+  Determine what the best metrics are for your application.
+  Optionally change these variables in `analyze.R`:
+  slow_cutoff, ylim_full, ylim_detail, width, height.
+  See comments in the R script
+- To skip testing and only rerun the analysis use
+  `bin/analyze_all_rubies.rb <your_app_name>`
+
+It would be fun to show your results to the rest of the world!
+Fork this repo and add/commit/push your report to github.
+Then announce it in github discussions for this repo.
+
 ## Gotchas
 Some things to keep in mind:
 
 - These scripts are meant to explore the differences between Ruby versions,
   not test the end-2-end performance of for instance a website.
   In the real world there are many more factors influencing total reponse time,
-  mainly network latency, but also things like proxy servers or load balancers
-- These scripts are __not__ emulating a full webbrowser page load (so including
+  mainly network latency, but also things like proxy servers or load balancers,
+  loading of CSS and javascript
+- These scripts are not emulating a full webbrowser page load (so including
   js/css/images), just some html requests to see differences between Ruby versions
-- When testing your own application, try to avoid using calls that use the
-  database a lot since this does not reflect Ruby performance.
-  Then again you could use these scripts to compare two or more calls on the
-  same Ruby version, for instance an old and a new implementation
+- When testing an application try to avoid using calls that perform
+  heavy database queries, since this does not reflect Ruby performance.  
+  Then again you could use these scripts to compare two or more database-heavy
+  calls on the same Ruby version, for instance an old and a new implementation
 - The test application is bombarded by requests. In reality application server
   traffic is much more irregular, giving Ruby the time to do garbage collection.
   It is possible to simulate this by adding some random sleep time to
@@ -121,23 +149,26 @@ Some things to keep in mind:
 - If the tested application spends al lot of time in C functions (for instance
   decrypting cookies or using sqlite) the effect of using JIT is less pronounced.
   The Rodauth test application shows this a bit
-- Average response time is not a very useful statistic. It can hide a lot of things.
+- Average response time is not a very useful statistic as it can hide a lot of things.
   Slow response count and median response time are more useful,
   but it does depend on the type of application
-- Generated plots sometimes show a lot of 'noise': dots all over the place and
-  outside the main lines around the median. Each plot contains 250 thousand or
+- Generated plots often show a lot of 'noise': dots all over the place and
+  outside the main lines around the median. Each plot can contain 250 thousand or
   more dots, the vast majority of dots is around the median, overlapping each other.
   The thousand or so dots you can see individually do not mean that much!
+- Only single threaded (concurrency == 1) testing is performed
 
 ## Improvements/ideas
 Some possible improvements:
 
-- For analysis: create a Jupyter notebook, instead of a markdown file
+- For analysis: generate a Jupyter notebook, instead of a markdown file
+- For analysis: generate a simple webpage showing (interactive) plots
+- Add quantiles statistic indicating the maximum responsetime you can expect
+  for 95%, 99% or 99.9% of all requests
 - Use (Sci)Ruby instead of R for analysis.
   Or generate the R script from Ruby using parameters to configure the outcome
 - Add support for other Ruby version managers (chruby, asdf)
-- Get [Fullstaq Ruby](https://fullstaqruby.org/) working
-- Store memory usage per run and add the average to the table in the report
+- Get Fullstaq Ruby working
 
 The author is _not_ working on any of these items :)
 
@@ -146,6 +177,24 @@ Note that these scripts are not meant for production use,
 but only to run on a development machine.
 In various places it is possible to inject paths and commands that
 are never checked for validity.
+
+## Similar software
+
+- [Apache Bench](https://httpd.apache.org/docs/2.4/programs/ab.html)
+  This tool is excellent but more suited for benchmarking using
+  concurrent requests. Response times are rounded to milliseconds
+  which is not precise enough. No automating switching Rubies.  
+  Example for 1000 runs and concurrency of 1:
+
+        sudo apt install apache2-utils
+        ab -n 1000 -c 1 http://127.0.0.1:9292
+
+- [jMeter](https://jmeter.apache.org/usermanual/generating-dashboard.html)
+  Could be a good option, but no automated switching of Rubies
+- [yjit-bench](https://github.com/Shopify/yjit-bench),
+  which includes [Optcarrot](https://github.com/mame/optcarrot).
+  Seems not really suited for request-response type benchmarking.
+  No automated switching Rubies, only normal vs. yjit.
 
 ## License
 See file MIT-LICENSE

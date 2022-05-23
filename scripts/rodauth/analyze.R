@@ -12,7 +12,7 @@ ylim_full   <- c(0, 15)
 # Scale of Y axis for detailed plots
 ylim_detail <- c(0.5, 2.5)
 
-# Dimensions for all plots
+# Dimensions for all plots in pixels
 width       <- 1920
 height      <- 1080
 
@@ -109,12 +109,12 @@ for (i in seq_len(length(versions))) {
     pos = 1,
     col = "blue")
 
-  a <- mean(df[df$x > half_x, ]$y)
+  a <- median(df[df$x > half_x, ]$y)
   if (is.finite(a)) {
     text(
       0,
       ylim_full[1],
-      paste0("Mean time [x > ", half_x, "]: ", round(a, 2), "ms"),
+      paste0("Median time [x > ", half_x, "]: ", round(a, 2), "ms"),
       pos = 4,
       col = "black")
 
