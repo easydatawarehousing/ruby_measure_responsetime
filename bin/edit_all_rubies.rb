@@ -6,6 +6,7 @@
 # Note: Edit data/#{app_name}/statistics.csv manually
 
 require 'csv'
+CSV_LINE_TERMINATOR = "\n"
 
 if ARGV.length == 0
   puts 'Please specify an application name'
@@ -43,8 +44,8 @@ when :list
   end
 
   puts "\rFound       "
-  kl = versions.keys.max { |k| k.length }.length
-  vl = versions.values.max { |k| k.to_s.length }.to_s.length
+  kl = versions.keys.max_by { |k| k.length }.length
+  vl = versions.values.max_by { |k| k.to_s.length }.to_s.length
   versions.each { |k, v| puts "#{k.ljust(kl)}  #{v.to_s.rjust(vl)}" }
 
 when :remove
@@ -57,12 +58,12 @@ when :remove
     i = 0
     removed = 0
     CSV.foreach(datafile_name, headers: true, header_converters: :symbol) do |row|
-      newfile.write "#{row.headers.join(',')}\r\n" if i == 0
+      newfile.write "#{row.headers.join(',')}#{CSV_LINE_TERMINATOR}" if i == 0
 
       if versions.include?(row[:version])
         removed += 1
       else
-        newfile.write "#{row.fields.join(',')}\r\n"
+        newfile.write "#{row.fields.join(',')}#{CSV_LINE_TERMINATOR}"
       end
 
       i += 1
@@ -89,14 +90,14 @@ when :rename
     i = 0
     renamed = 0
     CSV.foreach(datafile_name, headers: true, header_converters: :symbol) do |row|
-      newfile.write "#{row.headers.join(',')}\r\n" if i == 0
+      newfile.write "#{row.headers.join(',')}#{CSV_LINE_TERMINATOR}" if i == 0
 
       if version_from == row[:version][0, version_from_length]
         renamed += 1
         row[:version] = "#{version_to}#{row[:version][version_from_length..]}"
-        newfile.write "#{row.fields.join(',')}\r\n"
+        newfile.write "#{row.fields.join(',')}#{CSV_LINE_TERMINATOR}"
       else
-        newfile.write "#{row.fields.join(',')}\r\n"
+        newfile.write "#{row.fields.join(',')}#{CSV_LINE_TERMINATOR}"
       end
 
       i += 1
