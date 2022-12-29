@@ -12,7 +12,7 @@ Five url's were included in the test:
 5. index-page with bad cookie (cyan)
 
 ## System
-OS: Linux 4.15.0-177-generic #186-Ubuntu SMP Thu Apr 14 20:23:07 UTC 2022 x86_64 GNU/Linux  
+OS: Linux 4.15.0-200-generic #211-Ubuntu SMP Thu Nov 24 18:16:04 UTC 2022 x86_64 GNU/Linux  
 CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor  
 
 ## Tested Rubies
@@ -26,17 +26,17 @@ CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor
 | ruby-3.1.2                |      |      67Mb |      98Mb |     1180s |    4.67ms |    4.69ms |    2.08ms |    14242 |        0 |   750000 |      545 |
 | ruby-3.1.2                | MJIT |      64Mb |     146Mb |     1321s |    5.05ms |    4.75ms |    3.62ms |    43959 |        0 |   750000 |     2131 |
 | ruby-3.1.2                | YJIT |      77Mb |     132Mb |     1361s |    5.38ms |    5.44ms |    1.98ms |    41548 |        0 |   750000 |      226 |
-| ruby-3.2.0-preview1       |      |      64Mb |      97Mb |     1068s |    4.22ms |    4.26ms |     1.7ms |     3811 |        0 |   750000 |      183 |
-| ruby-3.2.0-preview1       | MJIT |      67Mb |     147Mb |     1198s |    4.51ms |    4.32ms |     3.5ms |    13100 |        0 |   750000 |     1682 |
-| ruby-3.2.0-preview1       | YJIT |      77Mb |     119Mb |     1359s |    5.37ms |    5.42ms |    2.59ms |    35053 |        0 |   750000 |      471 |
+| ruby-3.2.0                |      |      69Mb |     104Mb |     1001s |    3.94ms |    3.99ms |    0.97ms |     2372 |        0 |   750000 |       79 |
+| ruby-3.2.0                | MJIT |      70Mb |     176Mb |     1017s |    4.02ms |    4.09ms |    1.44ms |     1688 |        0 |   750000 |       16 |
+| ruby-3.2.0                | YJIT |      73Mb |     133Mb |      756s |    2.99ms |    2.95ms |    0.86ms |      878 |        0 |   750000 |       65 |
 | truffleruby-22.0.0.2      |      |           |    3319Mb |     1812s |    5.73ms |    4.59ms |   33.92ms |    96883 |        0 |   750000 |      121 |
 
 ## Winners
 
-- Ruby with lowest __slow__ response-count: __ruby-3.2.0-preview1__
-- Ruby with lowest __median__* response-time: __ruby-2.6.10__
-- Ruby with lowest __standard deviation__ response-time: __ruby-2.5.9__
-- Ruby with lowest __mean__* response-time: __ruby-2.6.10__
+- Ruby with lowest __slow__ response-count: __ruby-3.2.0 YJIT__
+- Ruby with lowest __median__* response-time: __ruby-3.2.0 YJIT__
+- Ruby with lowest __standard deviation__ response-time: __ruby-3.2.0 YJIT__
+- Ruby with lowest __mean__* response-time: __ruby-3.2.0 YJIT__
 
 \* Mean and median are calculated after warmup (x > N/2).
 
@@ -68,14 +68,14 @@ CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor
 ## Response-times ruby-3.1.2 YJIT
 ![Response-times ruby-3.1.2 YJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.1.2%20YJIT.png "Response-times ruby-3.1.2 YJIT")
 
-## Response-times ruby-3.2.0-preview1
-![Response-times ruby-3.2.0-preview1](/data/rails_devise/plots/rails_devise_1_ruby-3.2.0.png "Response-times ruby-3.2.0-preview1")
+## Response-times ruby-3.2.0
+![Response-times ruby-3.2.0](/data/rails_devise/plots/rails_devise_1_ruby-3.2.0.png "Response-times ruby-3.2.0")
 
-## Response-times ruby-3.2.0-preview1 MJIT
-![Response-times ruby-3.2.0-preview1 MJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.2.0%20MJIT.png "Response-times ruby-3.2.0-preview1 MJIT")
+## Response-times ruby-3.2.0 MJIT
+![Response-times ruby-3.2.0 MJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.2.0%20MJIT.png "Response-times ruby-3.2.0 MJIT")
 
-## Response-times ruby-3.2.0-preview1 YJIT
-![Response-times ruby-3.2.0-preview1 YJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.2.0%20YJIT.png "Response-times ruby-3.2.0-preview1 YJIT")
+## Response-times ruby-3.2.0 YJIT
+![Response-times ruby-3.2.0 YJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.2.0%20YJIT.png "Response-times ruby-3.2.0 YJIT")
 
 ## Response-times truffleruby-22.0.0.2
 ![Response-times truffleruby-22.0.0.2](/data/rails_devise/plots/rails_devise_1_truffleruby-22.0.0.2.png "Response-times truffleruby-22.0.0.2")
@@ -104,14 +104,14 @@ CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor
 ## Detailed response-times ruby-3.1.2 YJIT
 ![Detailed response-times ruby-3.1.2 YJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.1.2%20YJIT.png "Detailed response-times ruby-3.1.2 YJIT")
 
-## Detailed response-times ruby-3.2.0-preview1
-![Detailed response-times ruby-3.2.0-preview1](/data/rails_devise/plots/rails_devise_2_ruby-3.2.0.png "Detailed response-times ruby-3.2.0-preview1")
+## Detailed response-times ruby-3.2.0
+![Detailed response-times ruby-3.2.0](/data/rails_devise/plots/rails_devise_2_ruby-3.2.0.png "Detailed response-times ruby-3.2.0")
 
-## Detailed response-times ruby-3.2.0-preview1 MJIT
-![Detailed response-times ruby-3.2.0-preview1 MJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.2.0%20MJIT.png "Detailed response-times ruby-3.2.0-preview1 MJIT")
+## Detailed response-times ruby-3.2.0 MJIT
+![Detailed response-times ruby-3.2.0 MJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.2.0%20MJIT.png "Detailed response-times ruby-3.2.0 MJIT")
 
-## Detailed response-times ruby-3.2.0-preview1 YJIT
-![Detailed response-times ruby-3.2.0-preview1 YJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.2.0%20YJIT.png "Detailed response-times ruby-3.2.0-preview1 YJIT")
+## Detailed response-times ruby-3.2.0 YJIT
+![Detailed response-times ruby-3.2.0 YJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.2.0%20YJIT.png "Detailed response-times ruby-3.2.0 YJIT")
 
 ## Detailed response-times truffleruby-22.0.0.2
 ![Detailed response-times truffleruby-22.0.0.2](/data/rails_devise/plots/rails_devise_2_truffleruby-22.0.0.2.png "Detailed response-times truffleruby-22.0.0.2")
