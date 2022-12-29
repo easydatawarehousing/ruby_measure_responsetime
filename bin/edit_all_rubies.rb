@@ -7,15 +7,28 @@
 
 require 'csv'
 
-puts('Please specify an application name') and exit(1) if ARGV.length == 0
-puts("folder 'data/#{ARGV[0]}' does not exist") and exit(1) if !File.exist?("data/#{ARGV[0]}")
+if ARGV.length == 0
+  puts 'Please specify an application name'
+  exit 1
+end
+
+if !File.exist?("data/#{ARGV[0]}")
+  puts "folder 'data/#{ARGV[0]}' does not exist"
+  exit 1
+end
 
 app_name = ARGV[0]
 datafile_name = "data/#{app_name}/measurements.csv"
-puts("Datafile 'data/#{app_name}/measurements.csv' does not exist" if !File.exist?(datafile_name)
+if !File.exist?(datafile_name)
+  puts "Datafile 'data/#{app_name}/measurements.csv' does not exist"
+  exit 1
+end
 
 command = ARGV.length > 1 ? ARGV[1].to_sym : :list
-puts("Unknown command '#{command}'") and exit(1) if !%i[list remove rename].include?(command)
+if !%i[list remove rename].include?(command)
+  puts "Unknown command '#{command}'"
+  exit 1
+end
 
 case command
 when :list
