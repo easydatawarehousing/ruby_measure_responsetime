@@ -23,7 +23,8 @@ to allocate for YJIT.
 ## Examples
 Some example reports:
 
-- A [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing Ruby 2.0 to 3.2, jRuby and Truffleruby
+- A [Rodauth](data/rodauth_mri/README.md) application ([source](apps/rodauth)), testing only MRI Rubies (2.0 to 3.2)
+- Same [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing Ruby 2.0 to 3.2, jRuby and Truffleruby
 - A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), testing Ruby 2.5 to 3.2 and Truffleruby
 - A [gRPC based search](data/search/README.md) application, testing Ruby 2.7 to 3.1
 

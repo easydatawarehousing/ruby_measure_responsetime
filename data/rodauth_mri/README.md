@@ -20,7 +20,6 @@ CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor
 ## Tested Rubies
 | Ruby                      | JIT  | Mem start |   Mem end |   Runtime |      Mean |    Median |   Std.Dev |     Slow |   Errors |        N |  GC runs |
 | ------------------------- | ---- | --------: | --------: | --------: | --------: | --------: | --------: |--------: | -------: | -------: | -------: |
-| jruby-9.3.3.0             |      |     256Mb |    1031Mb |    11021s |    44.0ms |   43.99ms |    0.83ms |   749995 |        0 |   750000 |      161 |
 | ruby-2.0.0-p648           |      |      37Mb |      51Mb |      459s |    1.75ms |    1.13ms |    2.52ms |    46000 |        0 |   750000 |    15325 |
 | ruby-2.1.10               |      |      40Mb |      60Mb |      321s |    1.25ms |    1.15ms |     0.4ms |      383 |        0 |   750000 |      119 |
 | ruby-2.2.10               |      |      34Mb |      52Mb |      239s |    0.93ms |     0.9ms |    0.32ms |       21 |        0 |   750000 |        4 |
@@ -37,7 +36,6 @@ CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor
 | ruby-3.2.0                |      |      36Mb |      51Mb |      229s |     0.9ms |    0.83ms |    0.24ms |       13 |        0 |   750000 |        4 |
 | ruby-3.2.0                | MJIT |      37Mb |      99Mb |      232s |    0.89ms |    0.83ms |    2.39ms |       43 |        0 |   750000 |        5 |
 | ruby-3.2.0                | YJIT |      39Mb |      60Mb |      211s |    0.82ms |    0.76ms |    0.26ms |       24 |        0 |   750000 |        4 |
-| truffleruby-22.0.0.2      |      |     390Mb |    1391Mb |      391s |    1.24ms |    1.11ms |    6.86ms |     7345 |        0 |   750000 |       43 |
 
 ## Winners
 
@@ -50,113 +48,101 @@ CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor
 
 ## Overview of response-times of all tested Rubies
 [Boxplot](https://en.wikipedia.org/wiki/Box_plot) showing ~99% of all measurements (sorted by responsetime)
-![Overview of response-times of all tested Rubies](/data/rodauth/plots/rodauth_0_overview.png "Overview of response-times of all tested Rubies")
-
-## Response-times jruby-9.3.3.0
-![Response-times jruby-9.3.3.0](/data/rodauth/plots/rodauth_1_jruby-9.3.3.0.png "Response-times jruby-9.3.3.0")
+![Overview of response-times of all tested Rubies](/data/rodauth_mri/plots/rodauth_0_overview.png "Overview of response-times of all tested Rubies")
 
 ## Response-times ruby-2.0.0-p648
-![Response-times ruby-2.0.0-p648](/data/rodauth/plots/rodauth_1_ruby-2.0.0.png "Response-times ruby-2.0.0-p648")
+![Response-times ruby-2.0.0-p648](/data/rodauth_mri/plots/rodauth_1_ruby-2.0.0.png "Response-times ruby-2.0.0-p648")
 
 ## Response-times ruby-2.1.10
-![Response-times ruby-2.1.10](/data/rodauth/plots/rodauth_1_ruby-2.1.10.png "Response-times ruby-2.1.10")
+![Response-times ruby-2.1.10](/data/rodauth_mri/plots/rodauth_1_ruby-2.1.10.png "Response-times ruby-2.1.10")
 
 ## Response-times ruby-2.2.10
-![Response-times ruby-2.2.10](/data/rodauth/plots/rodauth_1_ruby-2.2.10.png "Response-times ruby-2.2.10")
+![Response-times ruby-2.2.10](/data/rodauth_mri/plots/rodauth_1_ruby-2.2.10.png "Response-times ruby-2.2.10")
 
 ## Response-times ruby-2.3.8
-![Response-times ruby-2.3.8](/data/rodauth/plots/rodauth_1_ruby-2.3.8.png "Response-times ruby-2.3.8")
+![Response-times ruby-2.3.8](/data/rodauth_mri/plots/rodauth_1_ruby-2.3.8.png "Response-times ruby-2.3.8")
 
 ## Response-times ruby-2.4.10
-![Response-times ruby-2.4.10](/data/rodauth/plots/rodauth_1_ruby-2.4.10.png "Response-times ruby-2.4.10")
+![Response-times ruby-2.4.10](/data/rodauth_mri/plots/rodauth_1_ruby-2.4.10.png "Response-times ruby-2.4.10")
 
 ## Response-times ruby-2.5.9
-![Response-times ruby-2.5.9](/data/rodauth/plots/rodauth_1_ruby-2.5.9.png "Response-times ruby-2.5.9")
+![Response-times ruby-2.5.9](/data/rodauth_mri/plots/rodauth_1_ruby-2.5.9.png "Response-times ruby-2.5.9")
 
 ## Response-times ruby-2.6.10
-![Response-times ruby-2.6.10](/data/rodauth/plots/rodauth_1_ruby-2.6.10.png "Response-times ruby-2.6.10")
+![Response-times ruby-2.6.10](/data/rodauth_mri/plots/rodauth_1_ruby-2.6.10.png "Response-times ruby-2.6.10")
 
 ## Response-times ruby-2.7.6
-![Response-times ruby-2.7.6](/data/rodauth/plots/rodauth_1_ruby-2.7.6.png "Response-times ruby-2.7.6")
+![Response-times ruby-2.7.6](/data/rodauth_mri/plots/rodauth_1_ruby-2.7.6.png "Response-times ruby-2.7.6")
 
 ## Response-times ruby-3.0.4
-![Response-times ruby-3.0.4](/data/rodauth/plots/rodauth_1_ruby-3.0.4.png "Response-times ruby-3.0.4")
+![Response-times ruby-3.0.4](/data/rodauth_mri/plots/rodauth_1_ruby-3.0.4.png "Response-times ruby-3.0.4")
 
 ## Response-times ruby-3.0.4 MJIT
-![Response-times ruby-3.0.4 MJIT](/data/rodauth/plots/rodauth_1_ruby-3.0.4%20MJIT.png "Response-times ruby-3.0.4 MJIT")
+![Response-times ruby-3.0.4 MJIT](/data/rodauth_mri/plots/rodauth_1_ruby-3.0.4%20MJIT.png "Response-times ruby-3.0.4 MJIT")
 
 ## Response-times ruby-3.1.2
-![Response-times ruby-3.1.2](/data/rodauth/plots/rodauth_1_ruby-3.1.2.png "Response-times ruby-3.1.2")
+![Response-times ruby-3.1.2](/data/rodauth_mri/plots/rodauth_1_ruby-3.1.2.png "Response-times ruby-3.1.2")
 
 ## Response-times ruby-3.1.2 MJIT
-![Response-times ruby-3.1.2 MJIT](/data/rodauth/plots/rodauth_1_ruby-3.1.2%20MJIT.png "Response-times ruby-3.1.2 MJIT")
+![Response-times ruby-3.1.2 MJIT](/data/rodauth_mri/plots/rodauth_1_ruby-3.1.2%20MJIT.png "Response-times ruby-3.1.2 MJIT")
 
 ## Response-times ruby-3.1.2 YJIT
-![Response-times ruby-3.1.2 YJIT](/data/rodauth/plots/rodauth_1_ruby-3.1.2%20YJIT.png "Response-times ruby-3.1.2 YJIT")
+![Response-times ruby-3.1.2 YJIT](/data/rodauth_mri/plots/rodauth_1_ruby-3.1.2%20YJIT.png "Response-times ruby-3.1.2 YJIT")
 
 ## Response-times ruby-3.2.0
-![Response-times ruby-3.2.0](/data/rodauth/plots/rodauth_1_ruby-3.2.0.png "Response-times ruby-3.2.0")
+![Response-times ruby-3.2.0](/data/rodauth_mri/plots/rodauth_1_ruby-3.2.0.png "Response-times ruby-3.2.0")
 
 ## Response-times ruby-3.2.0 MJIT
-![Response-times ruby-3.2.0 MJIT](/data/rodauth/plots/rodauth_1_ruby-3.2.0%20MJIT.png "Response-times ruby-3.2.0 MJIT")
+![Response-times ruby-3.2.0 MJIT](/data/rodauth_mri/plots/rodauth_1_ruby-3.2.0%20MJIT.png "Response-times ruby-3.2.0 MJIT")
 
 ## Response-times ruby-3.2.0 YJIT
-![Response-times ruby-3.2.0 YJIT](/data/rodauth/plots/rodauth_1_ruby-3.2.0%20YJIT.png "Response-times ruby-3.2.0 YJIT")
-
-## Response-times truffleruby-22.0.0.2
-![Response-times truffleruby-22.0.0.2](/data/rodauth/plots/rodauth_1_truffleruby-22.0.0.2.png "Response-times truffleruby-22.0.0.2")
-
-## Detailed response-times jruby-9.3.3.0
-![Detailed response-times jruby-9.3.3.0](/data/rodauth/plots/rodauth_2_jruby-9.3.3.0.png "Detailed response-times jruby-9.3.3.0")
+![Response-times ruby-3.2.0 YJIT](/data/rodauth_mri/plots/rodauth_1_ruby-3.2.0%20YJIT.png "Response-times ruby-3.2.0 YJIT")
 
 ## Detailed response-times ruby-2.0.0-p648
-![Detailed response-times ruby-2.0.0-p648](/data/rodauth/plots/rodauth_2_ruby-2.0.0.png "Detailed response-times ruby-2.0.0-p648")
+![Detailed response-times ruby-2.0.0-p648](/data/rodauth_mri/plots/rodauth_2_ruby-2.0.0.png "Detailed response-times ruby-2.0.0-p648")
 
 ## Detailed response-times ruby-2.1.10
-![Detailed response-times ruby-2.1.10](/data/rodauth/plots/rodauth_2_ruby-2.1.10.png "Detailed response-times ruby-2.1.10")
+![Detailed response-times ruby-2.1.10](/data/rodauth_mri/plots/rodauth_2_ruby-2.1.10.png "Detailed response-times ruby-2.1.10")
 
 ## Detailed response-times ruby-2.2.10
-![Detailed response-times ruby-2.2.10](/data/rodauth/plots/rodauth_2_ruby-2.2.10.png "Detailed response-times ruby-2.2.10")
+![Detailed response-times ruby-2.2.10](/data/rodauth_mri/plots/rodauth_2_ruby-2.2.10.png "Detailed response-times ruby-2.2.10")
 
 ## Detailed response-times ruby-2.3.8
-![Detailed response-times ruby-2.3.8](/data/rodauth/plots/rodauth_2_ruby-2.3.8.png "Detailed response-times ruby-2.3.8")
+![Detailed response-times ruby-2.3.8](/data/rodauth_mri/plots/rodauth_2_ruby-2.3.8.png "Detailed response-times ruby-2.3.8")
 
 ## Detailed response-times ruby-2.4.10
-![Detailed response-times ruby-2.4.10](/data/rodauth/plots/rodauth_2_ruby-2.4.10.png "Detailed response-times ruby-2.4.10")
+![Detailed response-times ruby-2.4.10](/data/rodauth_mri/plots/rodauth_2_ruby-2.4.10.png "Detailed response-times ruby-2.4.10")
 
 ## Detailed response-times ruby-2.5.9
-![Detailed response-times ruby-2.5.9](/data/rodauth/plots/rodauth_2_ruby-2.5.9.png "Detailed response-times ruby-2.5.9")
+![Detailed response-times ruby-2.5.9](/data/rodauth_mri/plots/rodauth_2_ruby-2.5.9.png "Detailed response-times ruby-2.5.9")
 
 ## Detailed response-times ruby-2.6.10
-![Detailed response-times ruby-2.6.10](/data/rodauth/plots/rodauth_2_ruby-2.6.10.png "Detailed response-times ruby-2.6.10")
+![Detailed response-times ruby-2.6.10](/data/rodauth_mri/plots/rodauth_2_ruby-2.6.10.png "Detailed response-times ruby-2.6.10")
 
 ## Detailed response-times ruby-2.7.6
-![Detailed response-times ruby-2.7.6](/data/rodauth/plots/rodauth_2_ruby-2.7.6.png "Detailed response-times ruby-2.7.6")
+![Detailed response-times ruby-2.7.6](/data/rodauth_mri/plots/rodauth_2_ruby-2.7.6.png "Detailed response-times ruby-2.7.6")
 
 ## Detailed response-times ruby-3.0.4
-![Detailed response-times ruby-3.0.4](/data/rodauth/plots/rodauth_2_ruby-3.0.4.png "Detailed response-times ruby-3.0.4")
+![Detailed response-times ruby-3.0.4](/data/rodauth_mri/plots/rodauth_2_ruby-3.0.4.png "Detailed response-times ruby-3.0.4")
 
 ## Detailed response-times ruby-3.0.4 MJIT
-![Detailed response-times ruby-3.0.4 MJIT](/data/rodauth/plots/rodauth_2_ruby-3.0.4%20MJIT.png "Detailed response-times ruby-3.0.4 MJIT")
+![Detailed response-times ruby-3.0.4 MJIT](/data/rodauth_mri/plots/rodauth_2_ruby-3.0.4%20MJIT.png "Detailed response-times ruby-3.0.4 MJIT")
 
 ## Detailed response-times ruby-3.1.2
-![Detailed response-times ruby-3.1.2](/data/rodauth/plots/rodauth_2_ruby-3.1.2.png "Detailed response-times ruby-3.1.2")
+![Detailed response-times ruby-3.1.2](/data/rodauth_mri/plots/rodauth_2_ruby-3.1.2.png "Detailed response-times ruby-3.1.2")
 
 ## Detailed response-times ruby-3.1.2 MJIT
-![Detailed response-times ruby-3.1.2 MJIT](/data/rodauth/plots/rodauth_2_ruby-3.1.2%20MJIT.png "Detailed response-times ruby-3.1.2 MJIT")
+![Detailed response-times ruby-3.1.2 MJIT](/data/rodauth_mri/plots/rodauth_2_ruby-3.1.2%20MJIT.png "Detailed response-times ruby-3.1.2 MJIT")
 
 ## Detailed response-times ruby-3.1.2 YJIT
-![Detailed response-times ruby-3.1.2 YJIT](/data/rodauth/plots/rodauth_2_ruby-3.1.2%20YJIT.png "Detailed response-times ruby-3.1.2 YJIT")
+![Detailed response-times ruby-3.1.2 YJIT](/data/rodauth_mri/plots/rodauth_2_ruby-3.1.2%20YJIT.png "Detailed response-times ruby-3.1.2 YJIT")
 
 ## Detailed response-times ruby-3.2.0
-![Detailed response-times ruby-3.2.0](/data/rodauth/plots/rodauth_2_ruby-3.2.0.png "Detailed response-times ruby-3.2.0")
+![Detailed response-times ruby-3.2.0](/data/rodauth_mri/plots/rodauth_2_ruby-3.2.0.png "Detailed response-times ruby-3.2.0")
 
 ## Detailed response-times ruby-3.2.0 MJIT
-![Detailed response-times ruby-3.2.0 MJIT](/data/rodauth/plots/rodauth_2_ruby-3.2.0%20MJIT.png "Detailed response-times ruby-3.2.0 MJIT")
+![Detailed response-times ruby-3.2.0 MJIT](/data/rodauth_mri/plots/rodauth_2_ruby-3.2.0%20MJIT.png "Detailed response-times ruby-3.2.0 MJIT")
 
 ## Detailed response-times ruby-3.2.0 YJIT
-![Detailed response-times ruby-3.2.0 YJIT](/data/rodauth/plots/rodauth_2_ruby-3.2.0%20YJIT.png "Detailed response-times ruby-3.2.0 YJIT")
-
-## Detailed response-times truffleruby-22.0.0.2
-![Detailed response-times truffleruby-22.0.0.2](/data/rodauth/plots/rodauth_2_truffleruby-22.0.0.2.png "Detailed response-times truffleruby-22.0.0.2")
+![Detailed response-times ruby-3.2.0 YJIT](/data/rodauth_mri/plots/rodauth_2_ruby-3.2.0%20YJIT.png "Detailed response-times ruby-3.2.0 YJIT")
 
