@@ -16,7 +16,9 @@ the same functionality.
 Or seeing if a sidechannel (timing) vulnerabitity was left open.
 For instance a login uri.  
 Or (after some tweaking of the script) see what the effect is of swapping
-one gem for another. Generating json springs to mind.
+one gem for another. Generating json springs to mind.  
+Or (after some tweaking of the script) find the optimal amount of memory
+to allocate for YJIT.  
 
 ## Examples
 Some example reports:
@@ -34,7 +36,7 @@ these commands:
 
 - Initialize Ruby version manager
 - CD to the test-application folder
-- Remove the `Gemfile.lock` file (save it first if you somehow need the existing version!)
+- Remove the `Gemfile.lock` file (save it first if you need to preserve the existing version!)
 - Switch to the specified Ruby version
 - Run `bundle install`
 - Run the application server process as a background task
@@ -128,6 +130,20 @@ It would be fun to show your results to the rest of the world!
 Fork this repo and add/commit/push your report to github.
 Then announce it in github discussions for this repo.
 
+## Manipulate the measurements CSV file
+The measurements.csv file may get quite big. Too big to handle using a text editor.
+You can use `bin/edit_all_rubies.rb` script to list or edit the contents of the csv file.
+For instance:
+
+    bin/edit_all_rubies.rb rodauth list
+    bin/edit_all_rubies.rb rodauth remove "ruby-2.0.0,ruby-3.0.4 MJIT"
+    bin/edit_all_rubies.rb rodauth rename "ruby-2.0.0" "ruby-2.0.0 XYZ"
+
+When using remove or rename a new csv file will be generated or overwritten:
+measurements_edited.csv
+
+Note: You will need to edit data/#{app_name}/statistics.csv manually.
+
 ## Gotchas
 Some things to keep in mind:
 
@@ -195,6 +211,12 @@ are never checked for validity.
   which includes [Optcarrot](https://github.com/mame/optcarrot).
   Seems not really suited for request-response type benchmarking.
   No automated switching Rubies, only normal vs. yjit.
+
+## Tips
+Trouble with enabling 3.2 YJIT on RVM?
+Make sure `rustc` V1.58+ is available and install using:
+
+    rvm install 3.2.0 --reconfigure --enable-yjit
 
 ## License
 See file MIT-LICENSE
