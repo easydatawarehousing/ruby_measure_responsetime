@@ -160,7 +160,7 @@ module Analyze
   def analyze_add_plot(f, plot_name, title, comment = nil)
     plot_file_name = "#{ANALYZE_DATA_FOLDER}/#{@app_name}/#{ANALYZE_PLOTS_FOLDER}/#{@app_name}_#{plot_name}.png"
 
-    if File.exists?(plot_file_name)
+    if File.exist?(plot_file_name)
       f.write "## #{title}\n#{comment}#{comment ? "\n" : ''}![#{title}](/#{plot_file_name.gsub(' ', '%20')} \"#{title}\")\n\n"
     end
   end

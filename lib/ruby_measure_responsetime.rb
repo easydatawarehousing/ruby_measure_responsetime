@@ -85,7 +85,7 @@ class RubyMeasureResponsetime
 
     filename = "scripts/#{@app_name}/#{RUBIES_TO_TEST_FILENAME}"
 
-    if File.exists?(filename)
+    if File.exist?(filename)
       rubies_to_test = YAML.load(IO.read(filename))
       rubies_to_include = rubies_to_test['include'] || []
       rubies_to_exclude = rubies_to_test['exclude'] || []
