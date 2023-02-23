@@ -24,9 +24,10 @@ to allocate for YJIT.
 Some example reports:
 
 - A [Rodauth](data/rodauth_mri/README.md) application ([source](apps/rodauth)), testing only MRI Rubies (2.0 to 3.2)
-- Same [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing Ruby 2.0 to 3.2, jRuby and Truffleruby
+- The same [Rodauth](data/rodauth/README.md) application, but including jRuby and Truffleruby
 - A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), testing Ruby 2.5 to 3.2 and Truffleruby
-- A [gRPC based search](data/search/README.md) application, testing Ruby 2.7 to 3.1
+- A [gRPC based search](data/search/README.md) micro-service, testing Ruby 2.7 to 3.1
+- A [gRPC based planning](data/scheduler/README.md) micro-service, testing Ruby 3.0 to 3.2
 
 ## How does it work
 The script first determines which Rubies are installed on your machine
@@ -214,10 +215,14 @@ are never checked for validity.
   No automated switching Rubies, only normal vs. yjit.
 
 ## Tips
-Trouble with enabling 3.2 YJIT on RVM?
-Make sure `rustc` V1.58+ is available and install using:
 
-    rvm install 3.2.0 --reconfigure --enable-yjit
+- Trouble with enabling 3.2 YJIT on RVM?
+  Make sure `rustc` V1.58+ is available and install using:
+
+      rvm install 3.2.0 --reconfigure --enable-yjit
+- Before testing a range of Ruby versions it might be useful to see if your
+  application works (bundle install, running) in each version.
+  Any error messages are swallowed by this library.
 
 ## License
 See file MIT-LICENSE
