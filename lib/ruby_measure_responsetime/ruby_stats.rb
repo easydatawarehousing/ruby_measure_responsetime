@@ -6,7 +6,7 @@ class RubyStats
 
   attr_accessor :memory_start, :memory_finish, :runtime,
                 :mean, :median, :stddev,
-                :slow, :error_count, :count, :mgcs_count
+                :slow, :slow_cutoff, :error_count, :count, :mgcs_count
 
   def initialize(ruby)
     @ruby_name = ruby[0]
@@ -47,17 +47,49 @@ class RubyStats
   end
 
   def set_metric_value(type, value)
-    case type
-    when :slow
-      @slow = value.to_i
-    when :mean
-      @mean = value.to_f
-    when :median
-      @median = value.to_f
-    when :stddev
-      @stddev = value.to_f
-    when :count
-      @count = value.to_i
+    if value != ''
+      case type
+      when :slow
+        @slow = value.to_i
+      when :slow_cutoff
+        @slow_cutoff = value.to_i
+      when :mean
+        @mean = value.to_f
+      when :median
+        @median = value.to_f
+      when :stddev
+        @stddev = value.to_f
+      when :count
+        @count = value.to_i
+      end
+    end
+  end
+
+  def slow_string
+    @slow ? "#{@slow}x" : ''
+  end
+
+  def slow_cutoff_string
+    @slow_cutoff ? " (> #{@slow_cutoff}ms)" : ''
+  end
+
+  def mean_string
+    @mean ? "#{@mean.round(2)}ms" : ''
+  end
+
+  def median_string
+    @median ? "#{@median.round(2)}ms" : ''
+  end
+
+  def stddev_string
+    @stddev ? "#{@stddev.round(2)}ms" : ''
+  end
+
+  def memory_string(at)
+    if at == :start
+      @memory_start ? "#{@memory_start.round(0)}Mb" : ''
+    else
+      @memory_finish ? "#{@memory_finish.round(0)}Mb" : ''
     end
   end
 
@@ -73,27 +105,7 @@ class RubyStats
     end
   end
 
-  def memory_string(at)
-    if at == :start
-      @memory_start ? "#{@memory_start.round(0)}Mb" : ''
-    else
-      @memory_finish ? "#{@memory_finish.round(0)}Mb" : ''
-    end
-  end
-
   def runtime_string
     @runtime ? "#{@runtime.round(0)}s" : ''
-  end
-
-  def mean_string
-    @mean ? "#{@mean.round(2)}ms" : ''
-  end
-
-  def median_string
-    @median ? "#{@median.round(2)}ms" : ''
-  end
-
-  def stddev_string
-    @stddev ? "#{@stddev.round(2)}ms" : ''
   end
 end

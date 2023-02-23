@@ -14,7 +14,7 @@ Five url's were included in the test:
 5. index-page with bad cookie (cyan)
 
 ## System
-OS: Linux 4.15.0-200-generic #211-Ubuntu SMP Thu Nov 24 18:16:04 UTC 2022 x86_64 GNU/Linux  
+OS: Linux 4.15.0-204-generic #215-Ubuntu SMP Fri Jan 20 18:24:59 UTC 2023 x86_64 GNU/Linux  
 CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor  
 
 ## Tested Rubies
@@ -41,10 +41,11 @@ CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor
 
 ## Winners
 
-- Ruby with lowest __slow__ response-count: __ruby-3.2.0__
-- Ruby with lowest __median__* response-time: __ruby-3.2.0 YJIT__
-- Ruby with lowest __standard deviation__ response-time: __ruby-3.2.0__
-- Ruby with lowest __mean__* response-time: __ruby-3.2.0 YJIT__
+- Ruby with lowest __slow__ response-count (> 5ms): __ruby-3.2.0__ (13x)
+- Ruby with lowest __median__* response-time: __ruby-3.2.0 YJIT__ (0.76ms)
+- Ruby with lowest __standard deviation__ response-time: __ruby-3.2.0__ (0.24ms)
+- Ruby with lowest __mean__* response-time: __ruby-3.2.0 YJIT__ (0.82ms)
+- Ruby with lowest __memory__ use: __ruby-2.4.10__ (37Mb)
 
 \* Mean and median are calculated after warmup (x > N/2).
 

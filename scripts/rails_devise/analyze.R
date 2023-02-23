@@ -26,7 +26,7 @@ data$version <- as.factor(data$version)
 versions <- sort(unique(data$version))
 
 # Print some statistics, to be read by the Ruby script
-cat("\nSlow request counts\n")
+cat(paste0("\nSlow request counts ", slow_cutoff, "\n"))
 aggregate(y ~ version, data = data[data$y >= slow_cutoff, ], length)
 
 cat("\nMeans\n")

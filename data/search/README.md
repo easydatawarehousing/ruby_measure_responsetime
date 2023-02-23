@@ -20,7 +20,7 @@ There are 5 different queries passed to the server:
 5. Type 2 medium difficult search (cyan)
 
 ## System
-OS: Linux 4.15.0-177-generic #186-Ubuntu SMP Thu Apr 14 20:23:07 UTC 2022 x86_64 GNU/Linux  
+OS: Linux 4.15.0-204-generic #215-Ubuntu SMP Fri Jan 20 18:24:59 UTC 2023 x86_64 GNU/Linux  
 CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor  
 
 ## Tested Rubies
@@ -35,10 +35,11 @@ CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor
 
 ## Winners
 
-- Ruby with lowest __slow__ response-count: __ruby-3.1.2 YJIT__
-- Ruby with lowest __median__* response-time: __ruby-3.1.2 YJIT__
-- Ruby with lowest __standard deviation__ response-time: __ruby-3.0.4 MJIT__
-- Ruby with lowest __mean__* response-time: __ruby-3.1.2 YJIT__
+- Ruby with lowest __slow__ response-count (> 3ms): __ruby-3.1.2 YJIT__ (71806x)
+- Ruby with lowest __median__* response-time: __ruby-3.1.2 YJIT__ (1.43ms)
+- Ruby with lowest __standard deviation__ response-time: __ruby-3.0.4 MJIT__ (1.16ms)
+- Ruby with lowest __mean__* response-time: __ruby-3.1.2 YJIT__ (1.8ms)
+- Ruby with lowest __memory__ use: __ruby-2.7.6__ (73Mb)
 
 \* Mean and median are calculated after warmup (x > N/2).
 
