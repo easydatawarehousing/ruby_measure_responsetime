@@ -212,9 +212,13 @@ class RubyMeasureResponsetime
   end
 
   def stop_server(bash)
-    if pid = measurement_server_pid
-      bash_execute(bash, "kill -9 #{pid}")
-      sleep 1
+    3.times do
+      if pid = measurement_server_pid
+        bash_execute(bash, "kill -9 #{pid.split.last}")
+        sleep 1
+      else
+        break
+      end
     end
   end
 
@@ -245,7 +249,7 @@ class RubyMeasureResponsetime
   def log_server_memory_usage(version, bash, at)
     5.times do
       if pid = measurement_server_pid
-        mb = `cat /proc/#{pid}/smaps | grep -i pss |  awk '{Total+=$2} END {print Total/1024}'`.strip.to_f
+        mb = `cat /proc/#{pid.split.last}/smaps | grep -i pss |  awk '{Total+=$2} END {print Total/1024}'`.strip.to_f
 
         if at == :start
           version.memory_start = mb
