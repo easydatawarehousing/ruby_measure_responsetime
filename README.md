@@ -24,6 +24,7 @@ to allocate for YJIT.
 Some example reports:
 
 - A [Rodauth](data/rodauth_mri/README.md) application ([source](apps/rodauth)), testing only MRI Rubies (2.0 to 3.2)
+- The same [Rodauth](data/rodauth330preview/README.md) application, but including Ruby 3.3.0-preview1
 - The same [Rodauth](data/rodauth/README.md) application, but including jRuby and Truffleruby
 - A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), testing Ruby 2.5 to 3.2 and Truffleruby
 - A [gRPC based search](data/search/README.md) micro-service, testing Ruby 2.7 to 3.1
