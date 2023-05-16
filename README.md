@@ -223,6 +223,10 @@ are never checked for validity.
 - Before testing a range of Ruby versions it might be useful to see if your
   application works (bundle install, running) in each version.
   Any error messages are swallowed by this library.
+- An interesting view on website performance
+  [Histogram + bounce rate == poverty line](https://www.speedcurve.com/blog/web-performance-poverty-line/)
+- Want to do more detailed analysis of the data? Load the desired `analyze.R` script into your R editor of
+  choice ([R Studio](https://posit.co/products/open-source/rstudio/) is a good one) and hack away.
 
 ## License
 See file MIT-LICENSE

@@ -177,12 +177,26 @@ module Analyze
       '[Boxplot](https://en.wikipedia.org/wiki/Box_plot) showing ~99% of all measurements (sorted by responsetime)'
     )
 
-    @rubies.each do |ruby|
-      analyze_add_plot(f, "1_#{ruby.match_name}", "Response-times #{ruby.full_name}")
-    end
+    analyze_add_plot(f,
+      '01_histogram',
+      'Histograms of response-times of all tested Rubies',
+      'Showing a single tested uri and the most occurring response-times'
+    )
+
+    f.write "## Scatter-plots\n"
+    f.write "These scatter-plots show the response time of individual calls as dots. "
+    f.write "Note that many dots may overlap each other.  \n"
+    f.write "Vertical blue lines near the X-axis indicate major garbage collection runs (of Run-ID 1).\n"
 
     @rubies.each do |ruby|
-      analyze_add_plot(f, "2_#{ruby.match_name}", "Detailed response-times #{ruby.full_name}")
+      analyze_add_plot(f, "1_#{ruby.match_name}", "Response-times for: #{ruby.full_name}")
+    end
+
+    f.write "\n## Detailed scatter-plots\n"
+    f.write "Same as above but focussing on the most ocurring response times. GC runs are not shown.\n"
+
+    @rubies.each do |ruby|
+      analyze_add_plot(f, "2_#{ruby.match_name}", "Detailed response-times for: #{ruby.full_name}")
     end
 
     f.close
