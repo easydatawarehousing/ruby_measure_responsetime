@@ -42,7 +42,7 @@ module Measure
 
   # Shell command to start the server process in the background, so end with &
   def cmd_measurement_run_server(jit)
-    "ruby #{jit} $(which rackup) --quiet > /dev/null 2>&1 &"
+    "bundle exec ruby #{jit} $(which rackup) --quiet > /dev/null 2>&1 &"
   end
 
   # Setup tests: set counters and determine uri's
