@@ -16,6 +16,7 @@ class HomeController < ApplicationController
   def version
     mjit = RUBY_DESCRIPTION['+JIT'] || RUBY_DESCRIPTION['+MJIT'] ? ' MJIT' : ''
     yjit = RUBY_DESCRIPTION['+YJIT'] ? ' YJIT' : ''
+    rjit = RUBY_DESCRIPTION['+RJIT'] ? ' RJIT' : ''
 
     version = if defined?(RUBY_ENGINE_VERSION)
       RUBY_ENGINE_VERSION
@@ -24,6 +25,6 @@ class HomeController < ApplicationController
       m ? m[1] : RUBY_DESCRIPTION
     end
 
-    render plain: "#{RUBY_ENGINE}-#{version}#{mjit}#{yjit}"
+    render plain: "#{RUBY_ENGINE}-#{version}#{mjit}#{yjit}#{rjit}"
   end
 end

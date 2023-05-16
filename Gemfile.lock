@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    ruby-progressbar (1.11.0)
+    ruby-progressbar (1.13.0)
     session (3.2.0)
 
 PLATFORMS
@@ -12,4 +12,4 @@ DEPENDENCIES
   session
 
 BUNDLED WITH
-   2.4.1
+   2.4.10

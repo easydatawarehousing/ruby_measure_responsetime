@@ -100,6 +100,8 @@ class RubyStats
       'MJIT'
     elsif @jit.to_s['--yjit']
       'YJIT'
+    elsif @jit.to_s['--rjit']
+      'RJIT'
     else
       ''
     end

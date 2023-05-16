@@ -28,6 +28,11 @@ class Rbenv
           versions << [ version, '--mjit']
           versions << [ version, '--yjit --yjit-exec-mem-size=8']
         end
+
+        if version =~ /3.3/
+          versions << [ version, '--rjit']
+          versions << [ version, '--yjit']
+        end
       end
 
     versions

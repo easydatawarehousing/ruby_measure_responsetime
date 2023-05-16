@@ -77,6 +77,7 @@ class App < Roda
     r.get 'version' do
       mjit = RUBY_DESCRIPTION['+JIT'] || RUBY_DESCRIPTION['+MJIT'] ? ' MJIT' : ''
       yjit = RUBY_DESCRIPTION['+YJIT'] ? ' YJIT' : ''
+      rjit = RUBY_DESCRIPTION['+RJIT'] ? ' RJIT' : ''
 
       version = if defined?(RUBY_ENGINE_VERSION)
         RUBY_ENGINE_VERSION
@@ -85,7 +86,7 @@ class App < Roda
         m ? m[1] : RUBY_DESCRIPTION
       end
 
-      "#{RUBY_ENGINE}-#{version}#{mjit}#{yjit}"
+      "#{RUBY_ENGINE}-#{version}#{mjit}#{yjit}#{rjit}"
     end
 
     r.get 'gc' do
