@@ -4,8 +4,16 @@
   - else
     Hello World!
 
+%main
+  %ul
+    - 10.times do |i|
+      - id = Random.rand(100)
+      %li= "Topic #{i}: #{id}"
+
 %p
   - if rodauth.logged_in?
     %a{ href: rodauth.logout_path } Logout
   - else
     %a{ href: rodauth.login_path } Login
+
+= partial 'footer'

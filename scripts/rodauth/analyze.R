@@ -12,14 +12,14 @@ slow_cutoff <- 5
 ylim_full   <- c(0, 15)
 
 # Scale of Y axis for detailed plots
-ylim_detail <- c(0.5, 2.5)
+ylim_detail <- c(0.3, 1.0)
 
 # Dimensions for all plots in pixels
 width       <- 1920
 height      <- 1080
 
 # Histogram
-show_uri    <- 4           # Select only 1 uri for easier to read histogram
+show_uri    <- 4           # Select only one uri for easier to read histograms
 ylim_hist   <- c(0.4, 1.4) # Limit range to most common response-times
 
 # Start of script #
@@ -212,7 +212,7 @@ for (i in seq_len(length(versions))) {
 
   # Set value to TRUE if you want add vertical lines
   # indicating a major garbage collection run
-  if (FALSE) {
+  if (TRUE) {
     gc <- df$x[df$mgc == 1 & df$run == 1]
 
     if (length(gc) <= 100) {

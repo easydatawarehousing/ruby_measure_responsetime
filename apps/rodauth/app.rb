@@ -33,6 +33,7 @@ class App < Roda
   plugin :flash
   plugin :assets, css: 'app.css'
   plugin :render, engine: 'haml', layout: 'layout', views: './views'
+  plugin :partials
   plugin :view_options
   plugin :public
   plugin :hash_routes
@@ -66,6 +67,9 @@ class App < Roda
     if $last_mgc_count != mgc
       $mgcs << $req_count
       $last_mgc_count = mgc
+
+      # Uncomment to log the reason of the last major garbage collection run
+      # $f.write "#{GC.latest_gc_info(:major_by)}\n"
     end
 
     r.public
