@@ -23,12 +23,10 @@ to allocate for YJIT.
 ## Examples
 Some example reports:
 
-- A [Rodauth](data/rodauth_mri/README.md) application ([source](apps/rodauth)), testing only MRI Rubies (2.0 to 3.2)
-- The same [Rodauth](data/rodauth330preview/README.md) application, but including Ruby 3.3.0-preview1
-- The same [Rodauth](data/rodauth/README.md) application, but including jRuby and Truffleruby
+- A [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing MRI Rubies (2.0 to 3.3)
+- The same [Rodauth](data/rodauth_mri/README.md) application, testing MRI Rubies (2.0 to 3.2)
+- The same [Rodauth](data/rodauth_20_32/README.md) application, but including jRuby and Truffleruby
 - A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), testing Ruby 2.5 to 3.2 and Truffleruby
-- A [gRPC based search](data/search/README.md) micro-service, testing Ruby 2.7 to 3.1
-- A [gRPC based planning](data/scheduler/README.md) micro-service, testing Ruby 3.0 to 3.2
 
 ## How does it work
 The script first determines which Rubies are installed on your machine
@@ -65,7 +63,8 @@ To see which Ruby versions will be tested specify N=0, like:
     bin/test_all_rubies.rb rodauth 0
 
 Tweak [rubies.yml](/scripts/rodauth/rubies.yml) if needed.
-The test Rodauth application was tested with MRI 2.0 to 3.2, JRuby and Truffleruby.
+The test Rodauth application was tested with MRI 3.0 to 3.3.
+You can add other rubies like JRuby and Truffleruby.
 
 Then run the test by specifying the number of iterations (N) and optionally a
 'Run-ID'. The Run-ID is simply an integer greater than zero added to each record
