@@ -29,7 +29,8 @@ Some example reports:
 - A [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing MRI Rubies (3.0 to 3.3)
 - The same [Rodauth](data/rodauth_mri/README.md) application, testing MRI Rubies (2.0 to 3.2)
 - The same [Rodauth](data/rodauth_20_32/README.md) application, but including jRuby and Truffleruby
-- A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), testing Ruby 2.5 to 3.2 and Truffleruby
+- A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), MRI Rubies (3.0 to 3.3)
+- The same [Rails](data/rails_devise_25_32/README.md) application, testing Ruby 2.5 to 3.2 and Truffleruby
 
 ## How does it work
 The script first determines which Rubies are installed on your machine
