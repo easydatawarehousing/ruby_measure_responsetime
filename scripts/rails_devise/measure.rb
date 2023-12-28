@@ -122,8 +122,6 @@ module Measure
       @total_time    += y
       @success_count += 1
     end
-
-    GC.start if x % 5_000 == 0
   rescue
     @error_count +=1
   end

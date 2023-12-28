@@ -104,7 +104,7 @@ class RubyMeasureResponsetime
     system 'clear'
 
     if @n > 0
-      puts "Testing '#{@app_name}' with these rubies (N = #{@n} run = #{@run_id} )\n\n"
+      puts "Testing '#{@app_name}' with these rubies (N = #{@n} run = #{@run_id})\n\n"
     else
       puts "#{@analyze_only ? 'Analyzing' : 'Testing'} Rubies for '#{@app_name}' #{@analyze_only ? '' : '(set N > 0 to run tests)'}\n\n"
     end
