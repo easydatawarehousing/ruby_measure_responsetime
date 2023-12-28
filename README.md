@@ -23,7 +23,7 @@ to allocate for YJIT.
 ## Examples
 Some example reports:
 
-- A [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing MRI Rubies (2.0 to 3.3)
+- A [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing MRI Rubies (3.0 to 3.3)
 - The same [Rodauth](data/rodauth_mri/README.md) application, testing MRI Rubies (2.0 to 3.2)
 - The same [Rodauth](data/rodauth_20_32/README.md) application, but including jRuby and Truffleruby
 - A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), testing Ruby 2.5 to 3.2 and Truffleruby
@@ -205,7 +205,7 @@ are never checked for validity.
   Example for 1000 runs and concurrency of 1:
 
         sudo apt install apache2-utils
-        ab -n 1000 -c 1 http://127.0.0.1:9292
+        ab -n 1000 -c 1 http://127.0.0.1:9292/
 
 - [jMeter](https://jmeter.apache.org/usermanual/generating-dashboard.html)
   Could be a good option, but no automated switching of Rubies
