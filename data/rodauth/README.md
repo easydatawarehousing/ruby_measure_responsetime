@@ -45,7 +45,7 @@ CPU: AuthenticAMD AMD Ryzen 7 5800X 8-Core Processor
 ![Overview of response-times of all tested Rubies](/data/rodauth/plots/rodauth_0_overview.png "Overview of response-times of all tested Rubies")
 
 ## Histograms of response-times of all tested Rubies
-Showing a single tested uri and the most occurring response-times
+Showing a single tested uri and the most occurring response-times after warmup (x > N/2)
 ![Histograms of response-times of all tested Rubies](/data/rodauth/plots/rodauth_01_histogram.png "Histograms of response-times of all tested Rubies")
 
 ## Scatter-plots

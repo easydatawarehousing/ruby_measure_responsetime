@@ -180,7 +180,7 @@ module Analyze
     analyze_add_plot(f,
       '01_histogram',
       'Histograms of response-times of all tested Rubies',
-      'Showing a single tested uri and the most occurring response-times'
+      'Showing a single tested uri and the most occurring response-times after warmup (x > N/2)'
     )
 
     f.write "## Scatter-plots\n"
