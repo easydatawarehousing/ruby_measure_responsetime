@@ -2,17 +2,20 @@
 Some scripts to measure the responsetime of a Ruby application.
 It automates testing of a range of ruby versions you have installed
 on your machine. Instead of just reporting some aggregated statistics
-it creates a nice little report where you can see the results over time.
+it creates a nice little report with statistics and plots of measurements.
 
 ## What can I use this for
-Comparing the performance of various Ruby versions for _your_ real
-world application. The application must support some kind of
-request-response cycle. Rack based applications including Rails work well.
+Comparing the performance of various Ruby versions (with and without YJIT)
+for __your real world application__.
+The application must support some kind of request-response cycle.
+Rack based applications including Rails work well.
 gRpc applications can be tested. And I'm sure other applications
-will fit.  
+will fit.
+
 Another possible use is comparing performance of two or more implementations
 of some function behind a uri. For instance an old an a new version of
-the same functionality.  
+the same functionality.
+
 Or seeing if a sidechannel (timing) vulnerabitity was left open.
 For instance a login uri.  
 Or (after some tweaking of the script) see what the effect is of swapping
