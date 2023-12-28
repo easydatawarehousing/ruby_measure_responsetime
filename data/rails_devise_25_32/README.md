@@ -43,77 +43,77 @@ CPU: AuthenticAMD AMD Ryzen 7 2700X Eight-Core Processor
 
 ## Overview of response-times of all tested Rubies
 [Boxplot](https://en.wikipedia.org/wiki/Box_plot) showing ~99% of all measurements (sorted by responsetime)
-![Overview of response-times of all tested Rubies](/data/rails_devise/plots/rails_devise_0_overview.png "Overview of response-times of all tested Rubies")
+![Overview of response-times of all tested Rubies](/data/rails_devise_25_32/plots/rails_devise_0_overview.png "Overview of response-times of all tested Rubies")
 
 ## Response-times ruby-2.5.9
-![Response-times ruby-2.5.9](/data/rails_devise/plots/rails_devise_1_ruby-2.5.9.png "Response-times ruby-2.5.9")
+![Response-times ruby-2.5.9](/data/rails_devise_25_32/plots/rails_devise_1_ruby-2.5.9.png "Response-times ruby-2.5.9")
 
 ## Response-times ruby-2.6.10
-![Response-times ruby-2.6.10](/data/rails_devise/plots/rails_devise_1_ruby-2.6.10.png "Response-times ruby-2.6.10")
+![Response-times ruby-2.6.10](/data/rails_devise_25_32/plots/rails_devise_1_ruby-2.6.10.png "Response-times ruby-2.6.10")
 
 ## Response-times ruby-2.7.6
-![Response-times ruby-2.7.6](/data/rails_devise/plots/rails_devise_1_ruby-2.7.6.png "Response-times ruby-2.7.6")
+![Response-times ruby-2.7.6](/data/rails_devise_25_32/plots/rails_devise_1_ruby-2.7.6.png "Response-times ruby-2.7.6")
 
 ## Response-times ruby-3.0.4
-![Response-times ruby-3.0.4](/data/rails_devise/plots/rails_devise_1_ruby-3.0.4.png "Response-times ruby-3.0.4")
+![Response-times ruby-3.0.4](/data/rails_devise_25_32/plots/rails_devise_1_ruby-3.0.4.png "Response-times ruby-3.0.4")
 
 ## Response-times ruby-3.0.4 MJIT
-![Response-times ruby-3.0.4 MJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.0.4%20MJIT.png "Response-times ruby-3.0.4 MJIT")
+![Response-times ruby-3.0.4 MJIT](/data/rails_devise_25_32/plots/rails_devise_1_ruby-3.0.4%20MJIT.png "Response-times ruby-3.0.4 MJIT")
 
 ## Response-times ruby-3.1.2
-![Response-times ruby-3.1.2](/data/rails_devise/plots/rails_devise_1_ruby-3.1.2.png "Response-times ruby-3.1.2")
+![Response-times ruby-3.1.2](/data/rails_devise_25_32/plots/rails_devise_1_ruby-3.1.2.png "Response-times ruby-3.1.2")
 
 ## Response-times ruby-3.1.2 MJIT
-![Response-times ruby-3.1.2 MJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.1.2%20MJIT.png "Response-times ruby-3.1.2 MJIT")
+![Response-times ruby-3.1.2 MJIT](/data/rails_devise_25_32/plots/rails_devise_1_ruby-3.1.2%20MJIT.png "Response-times ruby-3.1.2 MJIT")
 
 ## Response-times ruby-3.1.2 YJIT
-![Response-times ruby-3.1.2 YJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.1.2%20YJIT.png "Response-times ruby-3.1.2 YJIT")
+![Response-times ruby-3.1.2 YJIT](/data/rails_devise_25_32/plots/rails_devise_1_ruby-3.1.2%20YJIT.png "Response-times ruby-3.1.2 YJIT")
 
 ## Response-times ruby-3.2.0
-![Response-times ruby-3.2.0](/data/rails_devise/plots/rails_devise_1_ruby-3.2.0.png "Response-times ruby-3.2.0")
+![Response-times ruby-3.2.0](/data/rails_devise_25_32/plots/rails_devise_1_ruby-3.2.0.png "Response-times ruby-3.2.0")
 
 ## Response-times ruby-3.2.0 MJIT
-![Response-times ruby-3.2.0 MJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.2.0%20MJIT.png "Response-times ruby-3.2.0 MJIT")
+![Response-times ruby-3.2.0 MJIT](/data/rails_devise_25_32/plots/rails_devise_1_ruby-3.2.0%20MJIT.png "Response-times ruby-3.2.0 MJIT")
 
 ## Response-times ruby-3.2.0 YJIT
-![Response-times ruby-3.2.0 YJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.2.0%20YJIT.png "Response-times ruby-3.2.0 YJIT")
+![Response-times ruby-3.2.0 YJIT](/data/rails_devise_25_32/plots/rails_devise_1_ruby-3.2.0%20YJIT.png "Response-times ruby-3.2.0 YJIT")
 
 ## Response-times truffleruby-22.0.0.2
-![Response-times truffleruby-22.0.0.2](/data/rails_devise/plots/rails_devise_1_truffleruby-22.0.0.2.png "Response-times truffleruby-22.0.0.2")
+![Response-times truffleruby-22.0.0.2](/data/rails_devise_25_32/plots/rails_devise_1_truffleruby-22.0.0.2.png "Response-times truffleruby-22.0.0.2")
 
 ## Detailed response-times ruby-2.5.9
-![Detailed response-times ruby-2.5.9](/data/rails_devise/plots/rails_devise_2_ruby-2.5.9.png "Detailed response-times ruby-2.5.9")
+![Detailed response-times ruby-2.5.9](/data/rails_devise_25_32/plots/rails_devise_2_ruby-2.5.9.png "Detailed response-times ruby-2.5.9")
 
 ## Detailed response-times ruby-2.6.10
-![Detailed response-times ruby-2.6.10](/data/rails_devise/plots/rails_devise_2_ruby-2.6.10.png "Detailed response-times ruby-2.6.10")
+![Detailed response-times ruby-2.6.10](/data/rails_devise_25_32/plots/rails_devise_2_ruby-2.6.10.png "Detailed response-times ruby-2.6.10")
 
 ## Detailed response-times ruby-2.7.6
-![Detailed response-times ruby-2.7.6](/data/rails_devise/plots/rails_devise_2_ruby-2.7.6.png "Detailed response-times ruby-2.7.6")
+![Detailed response-times ruby-2.7.6](/data/rails_devise_25_32/plots/rails_devise_2_ruby-2.7.6.png "Detailed response-times ruby-2.7.6")
 
 ## Detailed response-times ruby-3.0.4
-![Detailed response-times ruby-3.0.4](/data/rails_devise/plots/rails_devise_2_ruby-3.0.4.png "Detailed response-times ruby-3.0.4")
+![Detailed response-times ruby-3.0.4](/data/rails_devise_25_32/plots/rails_devise_2_ruby-3.0.4.png "Detailed response-times ruby-3.0.4")
 
 ## Detailed response-times ruby-3.0.4 MJIT
-![Detailed response-times ruby-3.0.4 MJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.0.4%20MJIT.png "Detailed response-times ruby-3.0.4 MJIT")
+![Detailed response-times ruby-3.0.4 MJIT](/data/rails_devise_25_32/plots/rails_devise_2_ruby-3.0.4%20MJIT.png "Detailed response-times ruby-3.0.4 MJIT")
 
 ## Detailed response-times ruby-3.1.2
-![Detailed response-times ruby-3.1.2](/data/rails_devise/plots/rails_devise_2_ruby-3.1.2.png "Detailed response-times ruby-3.1.2")
+![Detailed response-times ruby-3.1.2](/data/rails_devise_25_32/plots/rails_devise_2_ruby-3.1.2.png "Detailed response-times ruby-3.1.2")
 
 ## Detailed response-times ruby-3.1.2 MJIT
-![Detailed response-times ruby-3.1.2 MJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.1.2%20MJIT.png "Detailed response-times ruby-3.1.2 MJIT")
+![Detailed response-times ruby-3.1.2 MJIT](/data/rails_devise_25_32/plots/rails_devise_2_ruby-3.1.2%20MJIT.png "Detailed response-times ruby-3.1.2 MJIT")
 
 ## Detailed response-times ruby-3.1.2 YJIT
-![Detailed response-times ruby-3.1.2 YJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.1.2%20YJIT.png "Detailed response-times ruby-3.1.2 YJIT")
+![Detailed response-times ruby-3.1.2 YJIT](/data/rails_devise_25_32/plots/rails_devise_2_ruby-3.1.2%20YJIT.png "Detailed response-times ruby-3.1.2 YJIT")
 
 ## Detailed response-times ruby-3.2.0
-![Detailed response-times ruby-3.2.0](/data/rails_devise/plots/rails_devise_2_ruby-3.2.0.png "Detailed response-times ruby-3.2.0")
+![Detailed response-times ruby-3.2.0](/data/rails_devise_25_32/plots/rails_devise_2_ruby-3.2.0.png "Detailed response-times ruby-3.2.0")
 
 ## Detailed response-times ruby-3.2.0 MJIT
-![Detailed response-times ruby-3.2.0 MJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.2.0%20MJIT.png "Detailed response-times ruby-3.2.0 MJIT")
+![Detailed response-times ruby-3.2.0 MJIT](/data/rails_devise_25_32/plots/rails_devise_2_ruby-3.2.0%20MJIT.png "Detailed response-times ruby-3.2.0 MJIT")
 
 ## Detailed response-times ruby-3.2.0 YJIT
-![Detailed response-times ruby-3.2.0 YJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.2.0%20YJIT.png "Detailed response-times ruby-3.2.0 YJIT")
+![Detailed response-times ruby-3.2.0 YJIT](/data/rails_devise_25_32/plots/rails_devise_2_ruby-3.2.0%20YJIT.png "Detailed response-times ruby-3.2.0 YJIT")
 
 ## Detailed response-times truffleruby-22.0.0.2
-![Detailed response-times truffleruby-22.0.0.2](/data/rails_devise/plots/rails_devise_2_truffleruby-22.0.0.2.png "Detailed response-times truffleruby-22.0.0.2")
+![Detailed response-times truffleruby-22.0.0.2](/data/rails_devise_25_32/plots/rails_devise_2_truffleruby-22.0.0.2.png "Detailed response-times truffleruby-22.0.0.2")
 
