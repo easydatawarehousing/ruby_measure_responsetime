@@ -4,9 +4,17 @@
   - else
     Hello World!
 
+%main
+  %ul
+    - 10.times do |i|
+      - id = Random.rand(100)
+      %li= "Topic #{i}: #{id}"
+
 %p
   - if user_signed_in?
     = link_to "Edit password", edit_user_password_path
     #{button_to "Sign out", destroy_user_session_path, method: :delete}
   - else
     = link_to "Log in", new_user_session_path, method: :post
+
+= render partial: 'footer'

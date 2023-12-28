@@ -9,7 +9,7 @@ app_name    <- "rodauth"
 slow_cutoff <- 5
 
 # Scale of Y axis for full plots
-ylim_full   <- c(0, 15)
+ylim_full   <- c(0, 10)
 
 # Scale of Y axis for detailed plots
 ylim_detail <- c(0.3, 1.0)
@@ -20,7 +20,7 @@ height      <- 1080
 
 # Histogram
 show_uri    <- 4           # Select only one uri for easier to read histograms
-ylim_hist   <- c(0.4, 1.4) # Limit range to most common response-times
+ylim_hist   <- c(0.3, 1.3) # Limit range to most common response-times
 
 # Start of script #
 
@@ -93,22 +93,23 @@ png(
 
 par(mfrow = c(ceiling(length(versions) / 3), 3), mar = c(7, 4, 4, 2))
 
+ylim <- length(data$y) / length(versions) / 15
 for (i in seq_len(length(versions))) {
-  df <- data[data$version == versions[i] & data$uri == show_uri, ]
+  df <- data[data$x > half_x & data$version == versions[i] & data$uri == show_uri, ]
 
   hist(
     df[df$y <= ylim_hist[2], ]$y,
     breaks = seq(from = 0, to = ylim_hist[2], by = 0.025),
     freq   = TRUE,
     xlim   = ylim_hist,
-    ylim   = c(0, 7500),
+    ylim   = c(0, ylim),
     col    = "blue",
     border = "white",
     main   = df[1, 1],
     ylab   = NULL,
     xlab   = "response time (ms)")
 
-  abline(v = lowest_mean, col = "red", lwd = 1)
+  abline(v = lowest_median, col = "red", lwd = 1)
 }
 
 mtext(
