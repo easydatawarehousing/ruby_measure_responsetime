@@ -14,7 +14,7 @@ class Rvm
 
     `rvm list`
       .split("\n")
-      .map { |version| version.scan(/ ([a-z]+\-[\d\.\-previw]+) +.*/)&.first&.first }
+      .map { |version| version.scan(/ ([a-z]+\-[\d\.\-previwc]+) +.*/)&.first&.first }
       .compact
       .sort
       .each do |version|
@@ -24,9 +24,14 @@ class Rvm
           versions << [ version, '--jit']
         end
 
-        if version =~ /ruby\-3.1/ || version =~ /ruby\-3.2/
+        if version =~ /ruby\-3.1/
           versions << [ version, '--mjit']
           versions << [ version, '--yjit --yjit-exec-mem-size=8']
+        end
+
+        if version =~ /ruby\-3.2/
+          versions << [ version, '--mjit']
+          versions << [ version, '--yjit']
         end
 
         if version =~ /ruby\-3.3/
@@ -38,8 +43,7 @@ class Rvm
     versions
   end
 
-  def self.cmd_initialize_ruby_version_manager
-  end
+  def self.cmd_initialize_ruby_version_manager; end
 
   def self.cmd_switch_to_ruby(version)
     "rvm use #{version} > /dev/null;"

@@ -18,7 +18,7 @@ class RubyStats
   end
 
   def match_name
-    "#{@ruby_name.sub('-preview1', '').sub('-p648', '')} #{jit_string}".strip
+    "#{@ruby_name.sub('-preview1', '').sub('-p648', '').sub('-rc1', '')} #{jit_string}".strip
   end
 
   def to_s

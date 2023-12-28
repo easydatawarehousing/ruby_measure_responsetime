@@ -186,7 +186,8 @@ module Analyze
     f.write "## Scatter-plots\n"
     f.write "These scatter-plots show the response time of individual calls as dots. "
     f.write "Note that many dots may overlap each other.  \n"
-    f.write "Vertical blue lines near the X-axis indicate major garbage collection runs (of Run-ID 1).\n"
+    f.write "Vertical blue lines near the X-axis indicate major garbage collection runs"
+    f.write " (of Run-ID 1, only when there are less than 100 GC runs).\n"
 
     @rubies.each do |ruby|
       analyze_add_plot(f, "1_#{ruby.match_name}", "Response-times for: #{ruby.full_name}")

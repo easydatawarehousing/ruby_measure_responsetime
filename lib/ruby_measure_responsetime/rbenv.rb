@@ -14,7 +14,7 @@ class Rbenv
 
     `rbenv versions`
       .split("\n")
-      .map { |version| version.scan(/[\* ]+([a-z\-+]*[\d\.\-previw]+) *.*/)&.first&.first }
+      .map { |version| version.scan(/[\* ]+([a-z\-+]*[\d\.\-previwc]+) *.*/)&.first&.first }
       .compact
       .sort
       .each do |version|
@@ -24,9 +24,14 @@ class Rbenv
           versions << [ version, '--jit']
         end
 
-        if version =~ /3.1|3.2/
+        if version =~ /3.1/
           versions << [ version, '--mjit']
           versions << [ version, '--yjit --yjit-exec-mem-size=8']
+        end
+
+        if version =~ /3.2/
+          versions << [ version, '--mjit']
+          versions << [ version, '--yjit']
         end
 
         if version =~ /3.3/
