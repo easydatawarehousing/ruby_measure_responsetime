@@ -1,5 +1,6 @@
 /.env.rb
 *.db
+!/apps/rodauth/tmp/predefined.db
 *.csv
 *.log
 *__
