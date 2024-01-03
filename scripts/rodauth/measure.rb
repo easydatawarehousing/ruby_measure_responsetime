@@ -12,6 +12,13 @@ module Measure
   # Read / open timeouts in seconds
   NET_TIMEOUTS = [15, 10]
 
+  # Log server memory usage after every x measurements
+  MEMORY_LOG_INTERVAL = 1_000
+
+  # Increment the measurement after which to log memory usage
+  # by x for run_id > 1
+  MEMORY_LOG_RUN_INCREMENT = 334
+
   private
 
   # Shell command to determine the process-id (pid) of the application server
@@ -108,12 +115,15 @@ module Measure
   def measure_run(version)
     _measure_get_ruby_version
     @reported_ruby_version ||= version.full_name
+    pid = measurement_server_pid
 
     bar = ProgressBar.create(title: 'Testing', format: '%t %a %j% |%B| %c/%C', total: @n)
 
     Net::HTTP.start(MEASURE_HOST, MEASURE_PORT, { read_timeout: NET_TIMEOUTS[0], open_timeout: NET_TIMEOUTS[1] }) do |http|
       @n.times do |x|
-        _measure_run_uris(x + 1, http)
+        pid ||= measurement_server_pid
+        _measure_run_uris(x, http)
+        _measure_memory(pid, x)
         bar.increment unless bar.finished?
       end
     end
@@ -145,13 +155,20 @@ module Measure
       t2 = Process.clock_gettime(Process::CLOCK_MONOTONIC, :float_millisecond)
       y = t2 - t1
 
-      @results       << [uri_index + 1, x, y]
+      @results       << [uri_index + 1, x + 1, y]
       @total_time    += y
       @success_count += 1
     end
   rescue => e
-    puts '', e
+    # puts '', e
     @error_count +=1
+  end
+
+  # Private method to log server memory usage
+  def _measure_memory(pid, x)
+    if ((x + 1 - ((@run_id - 1) * MEMORY_LOG_RUN_INCREMENT)) % MEMORY_LOG_INTERVAL).zero?
+      @memory_results << [x + 1, server_memory_in_megabytes(pid)]
+    end
   end
 
   # Finish tests: get garbage collection information from the server,
@@ -165,7 +182,9 @@ module Measure
       nil
     end
 
-    version.mean        = (@total_time / @success_count.to_f).round(1) if @success_count > 0
+    if @success_count > 0
+      version.mean = (@total_time / @success_count.to_f).round(1)
+    end
     version.error_count = @error_count
   end
 

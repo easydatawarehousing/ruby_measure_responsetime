@@ -24,7 +24,7 @@ ylim_hist   <- c(0.3, 1.3) # Limit range to most common response-times
 
 # Start of script #
 
-# Load data from csv
+# Load response measurement data from csv
 data <- read.csv(
   file   = paste0("data/", app_name, "/measurements.csv"),
   header = TRUE,
@@ -32,6 +32,15 @@ data <- read.csv(
 
 data$version <- as.factor(data$version)
 versions <- sort(unique(data$version))
+
+# Load memory measurement data from csv
+memory_data <- read.csv(
+  file   = paste0("data/", app_name, "/memory.csv"),
+  header = TRUE,
+  sep    = ",")
+
+memory_data$version <- as.factor(memory_data$version)
+memory_versions <- sort(unique(memory_data$version))
 
 # Print some statistics, to be read by the Ruby script
 cat(paste0("\nSlow request counts ", slow_cutoff, "\n"))
@@ -87,13 +96,14 @@ text(
 
 # Histograms
 png(
-  file   = paste0("data/", app_name, "/plots/", app_name, "_01_histogram.png"),
+  file   = paste0("data/", app_name, "/plots/", app_name, "_0_histogram.png"),
   width  = width,
   height = height)
 
 par(mfrow = c(ceiling(length(versions) / 3), 3), mar = c(7, 4, 4, 2))
 
 ylim <- length(data$y) / length(versions) / 15
+
 for (i in seq_len(length(versions))) {
   df <- data[data$x > half_x & data$version == versions[i] & data$uri == show_uri, ]
 
@@ -140,6 +150,34 @@ mtext(
   line = -2,
   adj = 0,
   outer = TRUE)
+
+dev.off()
+
+# Plot memory usage
+png(
+  file   = paste0("data/", app_name, "/plots/", app_name, "_0_memory.png"),
+  width  = width,
+  height = height)
+
+par(mfrow = c(ceiling(length(memory_versions) / 3), 3), mar = c(7, 4, 4, 2))
+
+xlim <- max(memory_data$x)
+ylim <- ceiling(max(memory_data$y) / 5) * 5
+
+for (i in seq_len(length(memory_versions))) {
+  df <- memory_data[memory_data$version == memory_versions[i], ]
+
+  plot(
+    df$y ~ df$x,
+    pch  = 19,
+    cex  = 0.2,
+    xlim = c(0, xlim),
+    ylim = c(0, ylim),
+    col  = df$run,
+    xlab = "Measurement",
+    ylab = "megabytes",
+    main = df[1, 1])
+}
 
 dev.off()
 par(mfrow = c(1, 1), mar = c(5, 4, 4, 2))

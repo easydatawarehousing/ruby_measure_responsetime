@@ -72,8 +72,8 @@ You can add other rubies like JRuby and Truffleruby.
 
 Then run the test by specifying the number of iterations (N) and optionally a
 'Run-ID'. The Run-ID is simply an integer greater than zero added to each record
-of the output .csv file. It is currently not used in the generated report but might
-be useful for detailed analysis.
+of the output .csv file. It is currently only used for coloring the generated
+memory plot but might be useful for detailed analysis.
 
     bin/test_all_rubies.rb rodauth 1000 1
 

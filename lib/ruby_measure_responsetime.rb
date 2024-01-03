@@ -63,7 +63,8 @@ class RubyMeasureResponsetime
 
   def reset_result_variables
     @mgcs                  = []  # Major garbage collection runs
-    @results               = []  # Measurement data
+    @results               = []  # Responsetime measurement data
+    @memory_results        = []  # Memory measurement data
     @reported_ruby_version = nil # Version reported by server
   end
 
@@ -125,7 +126,8 @@ class RubyMeasureResponsetime
       start_server(version, bash)
       log_server_memory_usage(version, bash, :start)
       run_test_script(version)
-      save_measurements
+      save_response_times
+      save_memory_results
       log_server_memory_usage(version, bash, :finish)
       stop_server(bash)
       save_statistics(version)
@@ -169,8 +171,9 @@ class RubyMeasureResponsetime
     version.mgcs_count = @mgcs.length
   end
 
-  def save_measurements
-    puts "Saving results"
+  def save_response_times
+    puts "Saving response time measurement data"
+
     f = if File.exist?(datafile_name)
       File.open(datafile_name, 'a')
     else
@@ -181,6 +184,24 @@ class RubyMeasureResponsetime
 
     @results.each_with_index do |r, i|
       f.write("\"#{@reported_ruby_version}\",#{@run_id},#{r[0]},#{r[1]},#{r[2].round(3)},#{@mgcs.include?(i+1) ? 1 : 0}#{CSV_LINE_TERMINATOR}")
+    end
+
+    f.close
+  end
+
+  def save_memory_results
+    puts "Saving memory measurement data"
+
+    f = if File.exist?(memoryfile_name)
+      File.open(memoryfile_name, 'a')
+    else
+      f = File.open(memoryfile_name, 'w')
+      f.write("version,run,x,y#{CSV_LINE_TERMINATOR}")
+      f
+    end
+
+    @memory_results.each_with_index do |r, i|
+      f.write("\"#{@reported_ruby_version}\",#{@run_id},#{r[0]},#{r[1]}#{CSV_LINE_TERMINATOR}")
     end
 
     f.close
@@ -248,19 +269,24 @@ class RubyMeasureResponsetime
 
   def log_server_memory_usage(version, bash, at)
     5.times do
-      if pid = measurement_server_pid
-        mb = `cat /proc/#{pid.split.last}/smaps | grep -i pss |  awk '{Total+=$2} END {print Total/1024}'`.strip.to_f
+      if (megabytes = server_memory_in_megabytes(measurement_server_pid))
 
         if at == :start
-          version.memory_start = mb
+          version.memory_start = megabytes
         else
-          version.memory_finish = mb
+          version.memory_finish = megabytes
         end
 
         return
       end
 
       sleep 1
+    end
+  end
+
+  def server_memory_in_megabytes(pid)
+    if pid
+      `cat /proc/#{pid.split.last}/smaps | grep -i pss |  awk '{Total+=$2} END {print Total/1024}'`.strip.to_f
     end
   end
 end

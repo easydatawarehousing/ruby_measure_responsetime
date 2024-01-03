@@ -33,6 +33,10 @@ module Analyze
     @datafile_name ||= "#{ANALYZE_DATA_FOLDER}/#{@app_name}/measurements.csv"
   end
 
+  def memoryfile_name
+    @memoryfile_name ||= "#{ANALYZE_DATA_FOLDER}/#{@app_name}/memory.csv"
+  end
+
   def statsfile_name
     @statsfile_name ||= "#{ANALYZE_DATA_FOLDER}/#{@app_name}/statistics.csv"
   end
@@ -178,16 +182,22 @@ module Analyze
     )
 
     analyze_add_plot(f,
-      '01_histogram',
+      '0_histogram',
       'Histograms of response-times of all tested Rubies',
       'Showing a single tested uri and the most occurring response-times after warmup (x > N/2)'
+    )
+
+    analyze_add_plot(f,
+      '0_memory',
+      'Memory use of all tested Rubies',
+      'Logged after a fixed interval of measurements (1,000). Each run is shown in a different color'
     )
 
     f.write "## Scatter-plots\n"
     f.write "These scatter-plots show the response time of individual calls as dots. "
     f.write "Note that many dots may overlap each other.  \n"
     f.write "Vertical blue lines near the X-axis indicate major garbage collection runs"
-    f.write " (of Run-ID 1, only when there are less than 100 GC runs).\n"
+    f.write " (of Run-ID 1, but only when there are less than 100 GC runs).\n"
 
     @rubies.each do |ruby|
       analyze_add_plot(f, "1_#{ruby.match_name}", "Response-times for: #{ruby.full_name}")
