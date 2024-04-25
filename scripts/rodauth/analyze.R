@@ -6,7 +6,7 @@ options(width = 150, echo = FALSE)
 app_name    <- "rodauth"
 
 # Cutoff to determine count of 'slow' responsetimes in milliseconds
-slow_cutoff <- 5
+slow_cutoff <- 3
 
 # Scale of Y axis for full plots
 ylim_full   <- c(0, 10)
@@ -20,7 +20,7 @@ height      <- 1080
 
 # Histogram
 show_uri    <- 4           # Select only one uri for easier to read histograms
-ylim_hist   <- c(0.3, 1.3) # Limit range to most common response-times
+ylim_hist   <- c(0.3, 1.0) # Limit range to most common response-times
 
 # Start of script #
 

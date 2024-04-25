@@ -14,25 +14,28 @@ Five url's were included in the test:
 5. index-page with bad cookie (cyan)
 
 ## System
-OS: Linux 5.15.0-91-generic #101-Ubuntu SMP Tue Nov 14 13:30:08 UTC 2023 x86_64 GNU/Linux  
+OS: Linux 5.15.0-105-generic #115-Ubuntu SMP Mon Apr 15 09:52:04 UTC 2024 x86_64 GNU/Linux  
 CPU: AuthenticAMD AMD Ryzen 7 5800X 8-Core Processor  
 
 ## Tested Rubies
 | Ruby                      | JIT  | Mem start |   Mem end |   Runtime |      Mean |    Median |   Std.Dev |     Slow |   Errors |        N |  GC runs |
 | ------------------------- | ---- | --------: | --------: | --------: | --------: | --------: | --------: |--------: | -------: | -------: | -------: |
-| ruby-3.0.4                |      |      34Mb |      45Mb |      141s |    0.56ms |    0.55ms |    0.14ms |      184 |        0 |   750000 |       48 |
-| ruby-3.1.3                |      |      37Mb |      46Mb |      153s |     0.6ms |    0.56ms |    0.49ms |     3710 |        0 |   750000 |      983 |
-| ruby-3.1.3                | YJIT |      47Mb |      61Mb |      154s |    0.61ms |    0.59ms |    0.18ms |      253 |        0 |   750000 |       49 |
-| ruby-3.2.2                |      |      37Mb |      51Mb |      124s |    0.49ms |    0.47ms |    0.12ms |       20 |        0 |   750000 |       19 |
-| ruby-3.2.2                | MJIT |      37Mb |      51Mb |      125s |    0.49ms |    0.47ms |    0.12ms |       28 |        0 |   750000 |       19 |
-| ruby-3.2.2                | YJIT |      38Mb |      57Mb |      113s |    0.45ms |    0.42ms |    0.16ms |       43 |        0 |   750000 |       22 |
-| ruby-3.3.0                |      |      41Mb |     133Mb |      138s |    0.55ms |    0.53ms |    0.13ms |        4 |        0 |   750000 |        1 |
-| ruby-3.3.0                | RJIT |      82Mb |     295Mb |      142s |    0.55ms |    0.49ms |     2.9ms |     5233 |        0 |   750000 |        2 |
-| ruby-3.3.0                | YJIT |      42Mb |     139Mb |      119s |    0.48ms |    0.46ms |    0.18ms |       16 |        0 |   750000 |        1 |
+| ruby-3.0.4                |      |      34Mb |      45Mb |      141s |    0.56ms |    0.55ms |    0.14ms |      354 |        0 |   750000 |       48 |
+| ruby-3.1.3                |      |      37Mb |      46Mb |      153s |     0.6ms |    0.56ms |    0.49ms |     5176 |        0 |   750000 |      983 |
+| ruby-3.1.3                | YJIT |      47Mb |      61Mb |      154s |    0.61ms |    0.59ms |    0.18ms |      417 |        0 |   750000 |       49 |
+| ruby-3.2.2                |      |      37Mb |      51Mb |      124s |    0.49ms |    0.47ms |    0.12ms |       99 |        0 |   750000 |       19 |
+| ruby-3.2.2                | MJIT |      37Mb |      51Mb |      125s |    0.49ms |    0.47ms |    0.12ms |       93 |        0 |   750000 |       19 |
+| ruby-3.2.2                | YJIT |      38Mb |      57Mb |      113s |    0.45ms |    0.42ms |    0.16ms |      147 |        0 |   750000 |       22 |
+| ruby-3.3.0                |      |      41Mb |     133Mb |      138s |    0.55ms |    0.53ms |    0.13ms |        9 |        0 |   750000 |        1 |
+| ruby-3.3.0                | RJIT |      82Mb |     295Mb |      142s |    0.55ms |    0.49ms |     2.9ms |     5302 |        0 |   750000 |        2 |
+| ruby-3.3.0                | YJIT |      42Mb |     139Mb |      119s |    0.48ms |    0.46ms |    0.18ms |       27 |        0 |   750000 |        1 |
+| ruby-3.3.1                |      |      39Mb |      46Mb |      136s |    0.54ms |    0.52ms |    0.12ms |        9 |        0 |   750000 |        4 |
+| ruby-3.3.1                | RJIT |      74Mb |     195Mb |      143s |    0.56ms |    0.49ms |    2.91ms |     4351 |        0 |   750000 |        2 |
+| ruby-3.3.1                | YJIT |      40Mb |      52Mb |      117s |    0.46ms |    0.44ms |    0.18ms |       25 |        0 |   750000 |        1 |
 
 ## Winners
 
-- Ruby with lowest __slow__ response-count (> 5ms): __ruby-3.3.0__ (4x)
+- Ruby with lowest __slow__ response-count (> 3ms): __ruby-3.3.0__ (9x)
 - Ruby with lowest __median__* response-time: __ruby-3.2.2 YJIT__ (0.42ms)
 - Ruby with lowest __standard deviation__ response-time: __ruby-3.2.2__ (0.12ms)
 - Ruby with lowest __mean__* response-time: __ruby-3.2.2 YJIT__ (0.45ms)
@@ -82,6 +85,15 @@ Vertical blue lines near the X-axis indicate major garbage collection runs (of R
 ## Response-times for: ruby-3.3.0 YJIT
 ![Response-times for: ruby-3.3.0 YJIT](/data/rodauth/plots/rodauth_1_ruby-3.3.0%20YJIT.png "Response-times for: ruby-3.3.0 YJIT")
 
+## Response-times for: ruby-3.3.1
+![Response-times for: ruby-3.3.1](/data/rodauth/plots/rodauth_1_ruby-3.3.1.png "Response-times for: ruby-3.3.1")
+
+## Response-times for: ruby-3.3.1 RJIT
+![Response-times for: ruby-3.3.1 RJIT](/data/rodauth/plots/rodauth_1_ruby-3.3.1%20RJIT.png "Response-times for: ruby-3.3.1 RJIT")
+
+## Response-times for: ruby-3.3.1 YJIT
+![Response-times for: ruby-3.3.1 YJIT](/data/rodauth/plots/rodauth_1_ruby-3.3.1%20YJIT.png "Response-times for: ruby-3.3.1 YJIT")
+
 
 ## Detailed scatter-plots
 Same as above but focussing on the most ocurring response times. GC runs are not shown.
@@ -111,4 +123,13 @@ Same as above but focussing on the most ocurring response times. GC runs are not
 
 ## Detailed response-times for: ruby-3.3.0 YJIT
 ![Detailed response-times for: ruby-3.3.0 YJIT](/data/rodauth/plots/rodauth_2_ruby-3.3.0%20YJIT.png "Detailed response-times for: ruby-3.3.0 YJIT")
+
+## Detailed response-times for: ruby-3.3.1
+![Detailed response-times for: ruby-3.3.1](/data/rodauth/plots/rodauth_2_ruby-3.3.1.png "Detailed response-times for: ruby-3.3.1")
+
+## Detailed response-times for: ruby-3.3.1 RJIT
+![Detailed response-times for: ruby-3.3.1 RJIT](/data/rodauth/plots/rodauth_2_ruby-3.3.1%20RJIT.png "Detailed response-times for: ruby-3.3.1 RJIT")
+
+## Detailed response-times for: ruby-3.3.1 YJIT
+![Detailed response-times for: ruby-3.3.1 YJIT](/data/rodauth/plots/rodauth_2_ruby-3.3.1%20YJIT.png "Detailed response-times for: ruby-3.3.1 YJIT")
 
