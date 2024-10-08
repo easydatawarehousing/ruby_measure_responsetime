@@ -34,7 +34,7 @@ class Rvm
           versions << [ version, '--yjit']
         end
 
-        if version =~ /ruby\-3.3/
+        if version =~ /ruby\-3.3/ || version =~ /ruby\-3.4/
           versions << [ version, '--rjit']
           versions << [ version, '--yjit']
         end

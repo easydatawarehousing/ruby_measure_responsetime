@@ -34,7 +34,7 @@ class Rbenv
           versions << [ version, '--yjit']
         end
 
-        if version =~ /3.3/
+        if version =~ /3.3/ || version =~ /3.4/
           versions << [ version, '--rjit']
           versions << [ version, '--yjit']
         end
