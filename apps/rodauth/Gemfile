@@ -32,6 +32,7 @@ if RUBY_VERSION >= '2.4'
   end
   if RUBY_VERSION >= '3.4.0'
     gem 'base64'
+    gem 'digest', '~> 3.1.1'
   end
 else
   gem 'tilt'
