@@ -4,6 +4,18 @@ It automates testing of a range of ruby versions you have installed
 on your machine. Instead of just reporting some aggregated statistics
 it creates a nice little report with statistics and plots of measurements.
 
+## Examples
+Example reports:
+
+- A [Roda + Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing MRI Rubies (3.0 to 3.4)
+- A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), MRI Rubies (3.0 to 3.4)
+
+And some older reports:
+
+- The same [Roda + Rodauth](data/rodauth_mri/README.md) application, testing MRI Rubies (2.0 to 3.2)
+- The same [Roda + Rodauth](data/rodauth_20_32/README.md) application, but including jRuby and Truffleruby
+- The same [Rails](data/rails_devise_25_32/README.md) application, testing Ruby 2.5 to 3.2 and Truffleruby
+
 ## What can I use this for
 Comparing the performance of various Ruby versions (with and without YJIT)
 for __your real world application__.
@@ -22,18 +34,6 @@ Or (after some tweaking of the script) see what the effect is of swapping
 one gem for another. Generating json springs to mind.  
 Or (after some tweaking of the script) find the optimal amount of memory
 to allocate for YJIT.  
-
-## Examples
-Example reports:
-
-- A [Roda + Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing MRI Rubies (3.0 to 3.4)
-- A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), MRI Rubies (3.0 to 3.4)
-
-And some older reports:
-
-- The same [Roda + Rodauth](data/rodauth_mri/README.md) application, testing MRI Rubies (2.0 to 3.2)
-- The same [Roda + Rodauth](data/rodauth_20_32/README.md) application, but including jRuby and Truffleruby
-- The same [Rails](data/rails_devise_25_32/README.md) application, testing Ruby 2.5 to 3.2 and Truffleruby
 
 ## How does it work
 The script first determines which Rubies are installed on your machine
