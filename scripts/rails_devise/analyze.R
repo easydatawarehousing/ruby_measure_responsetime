@@ -19,7 +19,7 @@ width       <- 1920
 height      <- 1080
 
 # Histogram
-show_uri    <- 4           # Select only one uri for easier to read histograms
+show_uri    <- 4       # Select only one uri for easier to read histograms
 ylim_hist   <- c(1, 3) # Limit range to most common response-times
 
 # Start of script #
