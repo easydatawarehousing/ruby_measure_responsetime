@@ -24,12 +24,15 @@ Or (after some tweaking of the script) find the optimal amount of memory
 to allocate for YJIT.  
 
 ## Examples
-Some example reports:
+Example reports:
 
-- A [Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing MRI Rubies (3.0 to 3.3)
-- The same [Rodauth](data/rodauth_mri/README.md) application, testing MRI Rubies (2.0 to 3.2)
-- The same [Rodauth](data/rodauth_20_32/README.md) application, but including jRuby and Truffleruby
-- A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), MRI Rubies (3.0 to 3.3)
+- A [Roda + Rodauth](data/rodauth/README.md) application ([source](apps/rodauth)), testing MRI Rubies (3.0 to 3.4)
+- A [Rails + Devise](data/rails_devise/README.md) application ([source](apps/rails_devise)), MRI Rubies (3.0 to 3.4)
+
+And some older reports:
+
+- The same [Roda + Rodauth](data/rodauth_mri/README.md) application, testing MRI Rubies (2.0 to 3.2)
+- The same [Roda + Rodauth](data/rodauth_20_32/README.md) application, but including jRuby and Truffleruby
 - The same [Rails](data/rails_devise_25_32/README.md) application, testing Ruby 2.5 to 3.2 and Truffleruby
 
 ## How does it work
@@ -67,7 +70,7 @@ To see which Ruby versions will be tested specify N=0, like:
     bin/test_all_rubies.rb rodauth 0
 
 Tweak [rubies.yml](/scripts/rodauth/rubies.yml) if needed.
-The test Rodauth application was tested with MRI 3.0 to 3.3.
+The test Rodauth application was tested with MRI 3.0 to 3.4.
 You can add other rubies like JRuby and Truffleruby.
 
 Then run the test by specifying the number of iterations (N) and optionally a
@@ -121,24 +124,24 @@ Steps to test your own application:
   The Rodauth test application implements two routes
   to get the Ruby version from the server and to get garbage collection information.
   If you can't add these routes to your application simply skip these steps
-- You may want to adjust the memory limit for YJIT. Default is 8Mb.
+- You may want to adjust the memory limit for YJIT.
   This can be set in `rvm.rb` or `rbenv.rb`
 - Run the script using `bin/test_all_rubies.rb <your_app_name> <N> <Run-ID>`
 - Examine the generated report (data/<your_app_name>/README.md).
   Determine what the best metrics are for your application.
   Optionally change these variables in `analyze.R`:
-  slow_cutoff, ylim_full, ylim_detail, width, height.
+  slow_cutoff, ylim_full, ylim_detail, width, height
+  for better display of graphs.
   See comments in the R script
 - To skip testing and only rerun the analysis use
   `bin/analyze_all_rubies.rb <your_app_name>`
 
-It would be fun to show your results to the rest of the world!
-Fork this repo and add/commit/push your report to github.
-Then announce it in github discussions for this repo.
-
 ## Manipulate the measurements CSV file
 The measurements.csv file may get quite big. Too big to handle using a text editor.
-You can use `bin/edit_all_rubies.rb` script to list or edit the contents of the csv file.
+You can use the edit script to list or edit the contents of the csv file:
+
+    bin/edit_all_rubies.rb <your_app_name> <command> <options>
+
 For instance:
 
     bin/edit_all_rubies.rb rodauth list
@@ -148,7 +151,8 @@ For instance:
 When using remove or rename a new csv file will be generated or overwritten:
 measurements_edited.csv
 
-Note: You will need to edit data/#{app_name}/statistics.csv manually.
+Note: You will need to edit `data/<your_app_name>/statistics.csv`
+and `data/<your_app_name>/memory.csv` manually.
 
 ## Gotchas
 Some things to keep in mind:
@@ -156,8 +160,8 @@ Some things to keep in mind:
 - These scripts are meant to explore the differences between Ruby versions,
   not test the end-2-end performance of for instance a website.
   In the real world there are many more factors influencing total reponse time,
-  mainly network latency, but also things like proxy servers or load balancers,
-  loading of CSS and javascript
+  mainly network latency and database performance, but also things like proxy
+  servers or load balancers, loading of CSS and javascript
 - These scripts are not emulating a full webbrowser page load (so including
   js/css/images), just some html requests to see differences between Ruby versions
 - When testing an application try to avoid using calls that perform
@@ -168,15 +172,14 @@ Some things to keep in mind:
   traffic is much more irregular, giving Ruby the time to do garbage collection.
   It is possible to simulate this by adding some random sleep time to
   `measure_run` method between each http call
-- If the tested application spends al lot of time in C functions (for instance
-  decrypting cookies or using sqlite) the effect of using JIT is less pronounced.
-  The Rodauth test application shows this a bit
+- If the tested application spends a lot of time in C functions (for instance
+  decrypting cookies or using sqlite) the effect of using JIT is less pronounced
 - Average response time is not a very useful statistic as it can hide a lot of things.
   Slow response count and median response time are more useful,
   but it does depend on the type of application
 - Generated plots often show a lot of 'noise': dots all over the place and
-  outside the main lines around the median. Each plot can contain 250 thousand or
-  more dots, the vast majority of dots is around the median, overlapping each other.
+  outside the main lines around the median. Each plot contains 750 thousand
+  dots, the vast majority of dots is around the median, overlapping each other.
   The thousand or so dots you can see individually do not mean that much!
 - Only single threaded (concurrency == 1) testing is performed
 
@@ -185,14 +188,11 @@ Some possible improvements:
 
 - For analysis: generate a Jupyter notebook, instead of a markdown file
 - For analysis: generate a simple webpage showing (interactive) plots
-- Add quantiles statistic indicating the maximum responsetime you can expect
-  for 95%, 99% or 99.9% of all requests
 - Use (Sci)Ruby instead of R for analysis.
   Or generate the R script from Ruby using parameters to configure the outcome
 - Add support for other Ruby version managers (chruby, asdf)
-- Get Fullstaq Ruby working
 
-The author is _not_ working on any of these items :)
+The author is _not_ working on any of these items ;)
 
 ## Security
 Note that these scripts are not meant for production use,
@@ -227,10 +227,8 @@ are never checked for validity.
 - Before testing a range of Ruby versions it might be useful to see if your
   application works (bundle install, running) in each version.
   Any error messages are swallowed by this library.
-- An interesting view on website performance
-  [Histogram + bounce rate == poverty line](https://www.speedcurve.com/blog/web-performance-poverty-line/)
 - Want to do more detailed analysis of the data? Load the desired `analyze.R` script into your R editor of
-  choice ([R Studio](https://posit.co/products/open-source/rstudio/) is a good one) and hack away.
+  choice ([R Studio IDE](https://posit.co/products/open-source/rstudio/) is a good one) and hack away.
 
 ## License
 See file MIT-LICENSE
