@@ -27,6 +27,8 @@ gem 'haml-rails'
 # Authentication
 gem 'devise'
 
+gem 'concurrent-ruby', '1.3.4'
+
 if RUBY_VERSION >= '3.4.0'
   gem 'benchmark'
   gem 'logger'
@@ -35,7 +37,7 @@ end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: [:mri, :windows]
 end
 
 group :development do

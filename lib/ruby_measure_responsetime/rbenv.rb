@@ -20,22 +20,26 @@ class Rbenv
       .each do |version|
         versions << [ version, nil ]
 
-        if version =~ /3.0/
+        if version =~ /3\.0/
           versions << [ version, '--jit']
         end
 
-        if version =~ /3.1/
+        if version =~ /3\.1/
           versions << [ version, '--mjit']
           versions << [ version, '--yjit --yjit-exec-mem-size=8']
         end
 
-        if version =~ /3.2/
+        if version =~ /3\.2/
           versions << [ version, '--mjit']
           versions << [ version, '--yjit']
         end
 
-        if version =~ /3.3/ || version =~ /3.4/
+        if version =~ /3\.3/ || version =~ /3\.4/
           versions << [ version, '--rjit']
+          versions << [ version, '--yjit']
+        end
+
+        if version =~ /4\.0/
           versions << [ version, '--yjit']
         end
       end
