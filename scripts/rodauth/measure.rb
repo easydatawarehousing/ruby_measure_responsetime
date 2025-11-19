@@ -39,17 +39,17 @@ module Measure
 
   # Shell command to switch to the application folder
   def cmd_switch_to_application_folder
-    "cd apps/#{@app_name} > /dev/null;"
+    "cd apps/#{@app_name};"
   end
 
   # Shell command to bundle gems
   def cmd_application_bundle_install
-    'bundle install > /dev/null;'
+    'bundle install;'
   end
 
   # Shell command to start the server process in the background, so end with &
   def cmd_measurement_run_server(jit)
-    "bundle exec ruby #{jit} $(which rackup) --quiet > /dev/null 2>&1 &"
+    "bundle exec ruby #{jit} $(which rackup) --quiet &"
   end
 
   # Setup tests: set counters and determine uri's

@@ -7,6 +7,7 @@ require 'yaml'
 require 'ruby-progressbar'
 require_relative 'ruby_measure_responsetime/rvm'
 require_relative 'ruby_measure_responsetime/rbenv'
+require_relative 'ruby_measure_responsetime/chruby'
 require_relative 'ruby_measure_responsetime/ruby_stats'
 require_relative 'ruby_measure_responsetime/analyze'
 
@@ -74,10 +75,10 @@ class RubyMeasureResponsetime
   end
 
   def determine_ruby_manager
-    @ruby_manager = Rvm.ruby_manager || Rbenv.ruby_manager
+    @ruby_manager = Rvm.ruby_manager || Rbenv.ruby_manager || Chruby.ruby_manager
 
     unless @ruby_manager
-      raise 'Please install RVM, Rbenv or change the script to use another Ruby version manager'
+      raise 'Please install RVM, Rbenv, chruby or change the script to use another Ruby version manager'
     end
   end
 
