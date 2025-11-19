@@ -14,7 +14,7 @@ class Rbenv
 
     `rbenv versions`
       .split("\n")
-      .map { |version| version.scan(/[\* ]+([a-z\-+]*[\d\.\-previwc]+) *.*/)&.first&.first }
+      .map { |version| version.scan(/[\* ]+([a-z\-+]*[\d\.\-preview\d?]+) *.*/)&.first&.first }
       .compact
       .sort
       .each do |version|
