@@ -14,7 +14,7 @@ Five url's were included in the test:
 5. index-page with bad cookie (cyan)
 
 ## System
-OS: Linux 5.15.0-126-generic #136-Ubuntu SMP Wed Nov 6 10:38:22 UTC 2024 x86_64 GNU/Linux  
+OS: Linux 6.8.0-90-generic #91-Ubuntu SMP PREEMPT_DYNAMIC Tue Nov 18 14:14:30 UTC 2025 x86_64 GNU/Linux  
 CPU: AuthenticAMD AMD Ryzen 7 5800X 8-Core Processor  
 
 ## Tested Rubies
@@ -24,14 +24,13 @@ CPU: AuthenticAMD AMD Ryzen 7 5800X 8-Core Processor
 | ruby-3.1.3                |      |      37Mb |      46Mb |      153s |     0.6ms |    0.56ms |    0.49ms |     5176 |        0 |   750000 |      983 |
 | ruby-3.1.3                | YJIT |      47Mb |      61Mb |      154s |    0.61ms |    0.59ms |    0.18ms |      417 |        0 |   750000 |       49 |
 | ruby-3.2.2                |      |      37Mb |      51Mb |      124s |    0.49ms |    0.47ms |    0.12ms |       99 |        0 |   750000 |       19 |
-| ruby-3.2.2                | MJIT |      37Mb |      51Mb |      125s |    0.49ms |    0.47ms |    0.12ms |       93 |        0 |   750000 |       19 |
 | ruby-3.2.2                | YJIT |      38Mb |      57Mb |      113s |    0.45ms |    0.42ms |    0.16ms |      147 |        0 |   750000 |       22 |
 | ruby-3.3.1                |      |      39Mb |      46Mb |      136s |    0.54ms |    0.52ms |    0.12ms |        9 |        0 |   750000 |        4 |
-| ruby-3.3.1                | RJIT |      74Mb |     195Mb |      143s |    0.56ms |    0.49ms |    2.91ms |     4351 |        0 |   750000 |        2 |
 | ruby-3.3.1                | YJIT |      40Mb |      52Mb |      117s |    0.46ms |    0.44ms |    0.18ms |       25 |        0 |   750000 |        1 |
 | ruby-3.4.1                |      |      33Mb |      43Mb |      144s |    0.57ms |    0.53ms |    0.15ms |       15 |        0 |   750000 |        1 |
-| ruby-3.4.1                | RJIT |      72Mb |     186Mb |      160s |    0.62ms |     0.5ms |    3.52ms |     3438 |        0 |   750000 |      266 |
 | ruby-3.4.1                | YJIT |      34Mb |      49Mb |      120s |    0.47ms |    0.45ms |    0.22ms |       39 |        0 |   750000 |        1 |
+| ruby-4.0.0                |      |      73Mb |      95Mb |      143s |    0.57ms |    0.53ms |    0.15ms |       44 |        0 |   750000 |        1 |
+| ruby-4.0.0                | YJIT |      76Mb |     109Mb |      120s |    0.48ms |    0.45ms |    0.25ms |       71 |        0 |   750000 |        1 |
 
 ## Winners
 
@@ -70,17 +69,11 @@ Vertical blue lines near the X-axis indicate major garbage collection runs (of R
 ## Response-times for: ruby-3.2.2
 ![Response-times for: ruby-3.2.2](/data/rodauth/plots/rodauth_1_ruby-3.2.2.png "Response-times for: ruby-3.2.2")
 
-## Response-times for: ruby-3.2.2 MJIT
-![Response-times for: ruby-3.2.2 MJIT](/data/rodauth/plots/rodauth_1_ruby-3.2.2%20MJIT.png "Response-times for: ruby-3.2.2 MJIT")
-
 ## Response-times for: ruby-3.2.2 YJIT
 ![Response-times for: ruby-3.2.2 YJIT](/data/rodauth/plots/rodauth_1_ruby-3.2.2%20YJIT.png "Response-times for: ruby-3.2.2 YJIT")
 
 ## Response-times for: ruby-3.3.1
 ![Response-times for: ruby-3.3.1](/data/rodauth/plots/rodauth_1_ruby-3.3.1.png "Response-times for: ruby-3.3.1")
-
-## Response-times for: ruby-3.3.1 RJIT
-![Response-times for: ruby-3.3.1 RJIT](/data/rodauth/plots/rodauth_1_ruby-3.3.1%20RJIT.png "Response-times for: ruby-3.3.1 RJIT")
 
 ## Response-times for: ruby-3.3.1 YJIT
 ![Response-times for: ruby-3.3.1 YJIT](/data/rodauth/plots/rodauth_1_ruby-3.3.1%20YJIT.png "Response-times for: ruby-3.3.1 YJIT")
@@ -88,11 +81,14 @@ Vertical blue lines near the X-axis indicate major garbage collection runs (of R
 ## Response-times for: ruby-3.4.1
 ![Response-times for: ruby-3.4.1](/data/rodauth/plots/rodauth_1_ruby-3.4.1.png "Response-times for: ruby-3.4.1")
 
-## Response-times for: ruby-3.4.1 RJIT
-![Response-times for: ruby-3.4.1 RJIT](/data/rodauth/plots/rodauth_1_ruby-3.4.1%20RJIT.png "Response-times for: ruby-3.4.1 RJIT")
-
 ## Response-times for: ruby-3.4.1 YJIT
 ![Response-times for: ruby-3.4.1 YJIT](/data/rodauth/plots/rodauth_1_ruby-3.4.1%20YJIT.png "Response-times for: ruby-3.4.1 YJIT")
+
+## Response-times for: ruby-4.0.0
+![Response-times for: ruby-4.0.0](/data/rodauth/plots/rodauth_1_ruby-4.0.0.png "Response-times for: ruby-4.0.0")
+
+## Response-times for: ruby-4.0.0 YJIT
+![Response-times for: ruby-4.0.0 YJIT](/data/rodauth/plots/rodauth_1_ruby-4.0.0%20YJIT.png "Response-times for: ruby-4.0.0 YJIT")
 
 
 ## Detailed scatter-plots
@@ -109,17 +105,11 @@ Same as above but focussing on the most ocurring response times. GC runs are not
 ## Detailed response-times for: ruby-3.2.2
 ![Detailed response-times for: ruby-3.2.2](/data/rodauth/plots/rodauth_2_ruby-3.2.2.png "Detailed response-times for: ruby-3.2.2")
 
-## Detailed response-times for: ruby-3.2.2 MJIT
-![Detailed response-times for: ruby-3.2.2 MJIT](/data/rodauth/plots/rodauth_2_ruby-3.2.2%20MJIT.png "Detailed response-times for: ruby-3.2.2 MJIT")
-
 ## Detailed response-times for: ruby-3.2.2 YJIT
 ![Detailed response-times for: ruby-3.2.2 YJIT](/data/rodauth/plots/rodauth_2_ruby-3.2.2%20YJIT.png "Detailed response-times for: ruby-3.2.2 YJIT")
 
 ## Detailed response-times for: ruby-3.3.1
 ![Detailed response-times for: ruby-3.3.1](/data/rodauth/plots/rodauth_2_ruby-3.3.1.png "Detailed response-times for: ruby-3.3.1")
-
-## Detailed response-times for: ruby-3.3.1 RJIT
-![Detailed response-times for: ruby-3.3.1 RJIT](/data/rodauth/plots/rodauth_2_ruby-3.3.1%20RJIT.png "Detailed response-times for: ruby-3.3.1 RJIT")
 
 ## Detailed response-times for: ruby-3.3.1 YJIT
 ![Detailed response-times for: ruby-3.3.1 YJIT](/data/rodauth/plots/rodauth_2_ruby-3.3.1%20YJIT.png "Detailed response-times for: ruby-3.3.1 YJIT")
@@ -127,9 +117,12 @@ Same as above but focussing on the most ocurring response times. GC runs are not
 ## Detailed response-times for: ruby-3.4.1
 ![Detailed response-times for: ruby-3.4.1](/data/rodauth/plots/rodauth_2_ruby-3.4.1.png "Detailed response-times for: ruby-3.4.1")
 
-## Detailed response-times for: ruby-3.4.1 RJIT
-![Detailed response-times for: ruby-3.4.1 RJIT](/data/rodauth/plots/rodauth_2_ruby-3.4.1%20RJIT.png "Detailed response-times for: ruby-3.4.1 RJIT")
-
 ## Detailed response-times for: ruby-3.4.1 YJIT
 ![Detailed response-times for: ruby-3.4.1 YJIT](/data/rodauth/plots/rodauth_2_ruby-3.4.1%20YJIT.png "Detailed response-times for: ruby-3.4.1 YJIT")
+
+## Detailed response-times for: ruby-4.0.0
+![Detailed response-times for: ruby-4.0.0](/data/rodauth/plots/rodauth_2_ruby-4.0.0.png "Detailed response-times for: ruby-4.0.0")
+
+## Detailed response-times for: ruby-4.0.0 YJIT
+![Detailed response-times for: ruby-4.0.0 YJIT](/data/rodauth/plots/rodauth_2_ruby-4.0.0%20YJIT.png "Detailed response-times for: ruby-4.0.0 YJIT")
 

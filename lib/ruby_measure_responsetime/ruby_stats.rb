@@ -21,6 +21,7 @@ class RubyStats
     name = @ruby_name
       .sub('-preview1', '')
       .sub('-preview2', '')
+      .sub('-preview3', '')
       .sub('-p648', '')
       .sub('-rc1', '')
 

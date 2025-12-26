@@ -12,7 +12,7 @@ Five url's were included in the test:
 5. index-page with bad cookie (cyan)
 
 ## System
-OS: Linux 5.15.0-126-generic #136-Ubuntu SMP Wed Nov 6 10:38:22 UTC 2024 x86_64 GNU/Linux  
+OS: Linux 6.8.0-90-generic #91-Ubuntu SMP PREEMPT_DYNAMIC Tue Nov 18 14:14:30 UTC 2025 x86_64 GNU/Linux  
 CPU: AuthenticAMD AMD Ryzen 7 5800X 8-Core Processor  
 
 ## Tested Rubies
@@ -27,6 +27,8 @@ CPU: AuthenticAMD AMD Ryzen 7 5800X 8-Core Processor
 | ruby-3.3.1                | YJIT |      78Mb |     116Mb |      378s |     1.5ms |    1.51ms |    0.36ms |      128 |        0 |   750000 |        1 |
 | ruby-3.4.1                |      |      68Mb |      92Mb |      544s |    2.16ms |    2.19ms |     0.4ms |      111 |        0 |   750000 |        8 |
 | ruby-3.4.1                | YJIT |      75Mb |     115Mb |      394s |    1.57ms |    1.53ms |    0.44ms |      154 |        0 |   750000 |        1 |
+| ruby-4.0.0                |      |     140Mb |     200Mb |      542s |    2.15ms |    2.17ms |    0.39ms |      304 |        0 |   750000 |       35 |
+| ruby-4.0.0                | YJIT |     160Mb |     235Mb |      386s |    1.54ms |    1.53ms |    0.46ms |      202 |        0 |   750000 |        0 |
 
 ## Winners
 
@@ -80,6 +82,12 @@ Vertical blue lines near the X-axis indicate major garbage collection runs (of R
 ## Response-times for: ruby-3.4.1 YJIT
 ![Response-times for: ruby-3.4.1 YJIT](/data/rails_devise/plots/rails_devise_1_ruby-3.4.1%20YJIT.png "Response-times for: ruby-3.4.1 YJIT")
 
+## Response-times for: ruby-4.0.0
+![Response-times for: ruby-4.0.0](/data/rails_devise/plots/rails_devise_1_ruby-4.0.0.png "Response-times for: ruby-4.0.0")
+
+## Response-times for: ruby-4.0.0 YJIT
+![Response-times for: ruby-4.0.0 YJIT](/data/rails_devise/plots/rails_devise_1_ruby-4.0.0%20YJIT.png "Response-times for: ruby-4.0.0 YJIT")
+
 
 ## Detailed scatter-plots
 Same as above but focussing on the most ocurring response times. GC runs are not shown.
@@ -109,4 +117,10 @@ Same as above but focussing on the most ocurring response times. GC runs are not
 
 ## Detailed response-times for: ruby-3.4.1 YJIT
 ![Detailed response-times for: ruby-3.4.1 YJIT](/data/rails_devise/plots/rails_devise_2_ruby-3.4.1%20YJIT.png "Detailed response-times for: ruby-3.4.1 YJIT")
+
+## Detailed response-times for: ruby-4.0.0
+![Detailed response-times for: ruby-4.0.0](/data/rails_devise/plots/rails_devise_2_ruby-4.0.0.png "Detailed response-times for: ruby-4.0.0")
+
+## Detailed response-times for: ruby-4.0.0 YJIT
+![Detailed response-times for: ruby-4.0.0 YJIT](/data/rails_devise/plots/rails_devise_2_ruby-4.0.0%20YJIT.png "Detailed response-times for: ruby-4.0.0 YJIT")
 
